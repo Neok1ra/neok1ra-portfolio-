@@ -17,7 +17,7 @@ interface CursorTrail {
   id: number;
 }
 
-type Page = 'home' | 'exploits' | 'frameworks' | 'research' | 'contact';
+type Page = 'home' | 'exploits' | 'frameworks' | 'contact';
 
 function App() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -139,8 +139,59 @@ function App() {
       <div className="max-w-7xl mx-auto space-y-12">
         {/* Hero Section */}
         <div className="grid lg:grid-cols-2 gap-12 items-center">
+          {/* Profile Image First */}
+          <div className="relative order-2 lg:order-1">
+            <div 
+              className="w-80 h-80 mx-auto rounded-lg border-2 border-green-400 bg-black/30 backdrop-blur-sm flex items-center justify-center relative overflow-hidden"
+              style={{
+                animation: 'float 6s ease-in-out infinite',
+                animationDelay: '2s',
+                boxShadow: '0 0 50px rgba(0, 255, 65, 0.3), inset 0 0 50px rgba(0, 255, 65, 0.1)'
+              }}
+            >
+              {/* Animated scan lines */}
+              <div className="absolute inset-0 bg-gradient-to-b from-transparent via-green-400/10 to-transparent animate-pulse"></div>
+              <div className="absolute top-0 left-0 w-full h-1 bg-green-400 animate-pulse" style={{ animation: 'scanLine 3s infinite' }}></div>
+              
+              <div className="text-center space-y-4 z-10">
+                <div className="w-16 h-16 mx-auto border border-green-400/50 rounded-full flex items-center justify-center bg-black/50">
+                  <Terminal className="w-8 h-8 text-green-400 animate-pulse" />
+                </div>
+                <div className="space-y-2">
+                  <p className="text-green-400 font-mono text-sm animate-pulse">
+                    [SCANNING...]
+                  </p>
+                  <p className="text-green-400/70 font-mono text-xs">
+                    IDENTITY_CLASSIFIED
+                  </p>
+                  <div className="flex justify-center space-x-1">
+                    {[...Array(8)].map((_, i) => (
+                      <div 
+                        key={i}
+                        className="w-1 h-1 bg-green-400 rounded-full animate-ping"
+                        style={{ animationDelay: `${i * 0.2}s` }}
+                      ></div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            {/* Enhanced decorative elements */}
+            <div className="absolute -top-4 -left-4 w-8 h-8 border-l-2 border-t-2 border-green-400 animate-pulse"></div>
+            <div className="absolute -top-4 -right-4 w-8 h-8 border-r-2 border-t-2 border-green-400 animate-pulse"></div>
+            <div className="absolute -bottom-4 -left-4 w-8 h-8 border-l-2 border-b-2 border-green-400 animate-pulse"></div>
+            <div className="absolute -bottom-4 -right-4 w-8 h-8 border-r-2 border-b-2 border-green-400 animate-pulse"></div>
+            
+            {/* Floating data elements */}
+            <div className="absolute -top-2 left-1/4 text-green-400/30 font-mono text-xs animate-bounce">01001000</div>
+            <div className="absolute -right-8 top-1/3 text-green-400/30 font-mono text-xs animate-bounce" style={{ animationDelay: '1s' }}>HACK</div>
+            <div className="absolute -bottom-2 right-1/4 text-green-400/30 font-mono text-xs animate-bounce" style={{ animationDelay: '2s' }}>0xFF</div>
+            <div className="absolute -left-8 bottom-1/3 text-green-400/30 font-mono text-xs animate-bounce" style={{ animationDelay: '0.5s' }}>ROOT</div>
+          </div>
+
           {/* Text Content */}
-          <div className="space-y-8">
+          <div className="space-y-8 order-1 lg:order-2">
             <h1 
               className="text-4xl lg:text-6xl font-bold leading-tight"
               style={{ 
@@ -217,35 +268,6 @@ function App() {
               </button>
             </div>
           </div>
-
-          {/* Profile Image Placeholder */}
-          <div className="relative">
-            <div 
-              className="w-80 h-80 mx-auto rounded-lg border-2 border-green-400 bg-black/30 backdrop-blur-sm flex items-center justify-center"
-              style={{
-                animation: 'float 6s ease-in-out infinite',
-                animationDelay: '2s',
-                boxShadow: '0 0 50px rgba(0, 255, 65, 0.3), inset 0 0 50px rgba(0, 255, 65, 0.1)'
-              }}
-            >
-              <div className="text-center space-y-4">
-                <div className="w-16 h-16 mx-auto border border-green-400/50 rounded-full flex items-center justify-center">
-                  <Terminal className="w-8 h-8 text-green-400" />
-                </div>
-                <p className="text-green-400/70 font-mono text-sm">
-                  PROFILE_IMAGE
-                  <br />
-                  PLACEHOLDER
-                </p>
-              </div>
-            </div>
-            
-            {/* Decorative elements */}
-            <div className="absolute -top-4 -left-4 w-8 h-8 border-l-2 border-t-2 border-green-400"></div>
-            <div className="absolute -top-4 -right-4 w-8 h-8 border-r-2 border-t-2 border-green-400"></div>
-            <div className="absolute -bottom-4 -left-4 w-8 h-8 border-l-2 border-b-2 border-green-400"></div>
-            <div className="absolute -bottom-4 -right-4 w-8 h-8 border-r-2 border-b-2 border-green-400"></div>
-          </div>
         </div>
 
         {/* About Me Card */}
@@ -257,6 +279,7 @@ function App() {
   const renderExploitsPage = () => (
     <main className="flex-1 px-6 lg:px-8 py-12">
       <div className="max-w-6xl mx-auto">
+        {/* Enhanced header with hacker elements */}
         <div className="flex items-center space-x-4 mb-8">
           <button 
             onClick={() => {
@@ -268,9 +291,19 @@ function App() {
           >
             <ArrowLeft className="w-5 h-5 text-green-400" />
           </button>
-          <h1 className="text-4xl font-bold text-green-400" style={{ fontFamily: 'serif', textShadow: '0 0 20px #00ff41' }}>
-            EXPLOITS ARSENAL
-          </h1>
+          <div className="flex-1">
+            <h1 className="text-4xl font-bold text-green-400 mb-2" style={{ fontFamily: 'serif', textShadow: '0 0 20px #00ff41' }}>
+              EXPLOITS_ARSENAL.exe
+            </h1>
+            <div className="flex items-center space-x-4 text-sm font-mono text-green-400/70">
+              <span>[LOADING_WEAPONS...]</span>
+              <div className="flex space-x-1">
+                {[...Array(6)].map((_, i) => (
+                  <div key={i} className="w-2 h-2 bg-red-400 rounded-full animate-ping" style={{ animationDelay: `${i * 0.3}s` }}></div>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -368,6 +401,7 @@ function App() {
   const renderFrameworksPage = () => (
     <main className="flex-1 px-6 lg:px-8 py-12">
       <div className="max-w-6xl mx-auto">
+        {/* Enhanced header */}
         <div className="flex items-center space-x-4 mb-8">
           <button 
             onClick={() => {
@@ -379,9 +413,15 @@ function App() {
           >
             <ArrowLeft className="w-5 h-5 text-green-400" />
           </button>
-          <h1 className="text-4xl font-bold text-green-400" style={{ fontFamily: 'serif', textShadow: '0 0 20px #00ff41' }}>
-            RED TEAM FRAMEWORKS
-          </h1>
+          <div className="flex-1">
+            <h1 className="text-4xl font-bold text-green-400 mb-2" style={{ fontFamily: 'serif', textShadow: '0 0 20px #00ff41' }}>
+              RED_TEAM_FRAMEWORKS.dll
+            </h1>
+            <div className="flex items-center space-x-4 text-sm font-mono text-green-400/70">
+              <span>[INITIALIZING_ATTACK_VECTORS...]</span>
+              <div className="animate-pulse">●●●</div>
+            </div>
+          </div>
         </div>
 
         <div className="space-y-8">
@@ -464,116 +504,20 @@ function App() {
     </main>
   );
 
-  const renderResearchPage = () => (
-    <main className="flex-1 px-6 lg:px-8 py-12">
-      <div className="max-w-6xl mx-auto">
-        <div className="flex items-center space-x-4 mb-8">
-          <button 
-            onClick={() => {
-              (window as any).playClickSound?.();
-              navigateTo('home');
-            }}
-            onMouseEnter={() => (window as any).playHoverSound?.()}
-            className="p-2 border border-green-400 bg-black/50 backdrop-blur-sm hover:bg-green-400/20 transition-all duration-300"
-          >
-            <ArrowLeft className="w-5 h-5 text-green-400" />
-          </button>
-          <h1 className="text-4xl font-bold text-green-400" style={{ fontFamily: 'serif', textShadow: '0 0 20px #00ff41' }}>
-            SECURITY RESEARCH
-          </h1>
+  const renderContactPage = () => (
+    <main className="flex-1 px-6 lg:px-8 py-12 relative overflow-hidden">
+      {/* Animated background elements */}
+      <div className="absolute inset-0 opacity-10">
+        <div className="absolute top-10 left-10 text-green-400/20 font-mono text-xs animate-pulse">
+          {Array(50).fill('HACK ').join('')}
         </div>
-
-        <div className="space-y-8">
-          {[
-            {
-              title: 'AI-Powered Malware Detection Evasion',
-              date: '2024-01-15',
-              category: 'Machine Learning',
-              summary: 'Research on adversarial machine learning techniques to evade modern AI-based security solutions',
-              status: 'Published',
-              venue: 'BlackHat USA 2024'
-            },
-            {
-              title: 'Zero-Day Discovery in IoT Firmware',
-              date: '2023-11-22',
-              category: 'IoT Security',
-              summary: 'Systematic approach to automated vulnerability discovery in embedded device firmware',
-              status: 'Under Review',
-              venue: 'IEEE Security & Privacy'
-            },
-            {
-              title: 'Blockchain Smart Contract Exploitation',
-              date: '2023-09-08',
-              category: 'Blockchain',
-              summary: 'Novel attack vectors against DeFi protocols and automated exploitation frameworks',
-              status: 'Published',
-              venue: 'DEF CON 31'
-            },
-            {
-              title: 'Memory Corruption in Modern Browsers',
-              date: '2023-06-14',
-              category: 'Web Security',
-              summary: 'Analysis of memory safety vulnerabilities in JavaScript engines and exploitation techniques',
-              status: 'In Progress',
-              venue: 'TBD'
-            }
-          ].map((research, index) => (
-            <div
-              key={research.title}
-              className="border border-green-400/30 bg-black/30 backdrop-blur-sm p-6 hover:border-green-400 hover:bg-green-400/10 transition-all duration-300 cursor-pointer"
-              style={{ 
-                animation: `fadeInUp 0.8s ease forwards`,
-                animationDelay: `${index * 0.1}s`,
-                opacity: 0
-              }}
-              onMouseEnter={() => (window as any).playHoverSound?.()}
-            >
-              <div className="flex justify-between items-start mb-4">
-                <div>
-                  <h3 className="text-xl font-bold text-green-400 mb-2">{research.title}</h3>
-                  <div className="flex items-center space-x-4 text-sm text-green-300/70">
-                    <span>{research.date}</span>
-                    <span>•</span>
-                    <span>{research.category}</span>
-                    <span>•</span>
-                    <span>{research.venue}</span>
-                  </div>
-                </div>
-                <span className={`px-3 py-1 text-xs font-mono ${
-                  research.status === 'Published' ? 'bg-green-400/20 text-green-400' :
-                  research.status === 'Under Review' ? 'bg-yellow-400/20 text-yellow-400' :
-                  'bg-blue-400/20 text-blue-400'
-                }`}>
-                  {research.status}
-                </span>
-              </div>
-              <p className="text-green-300/80 mb-4 leading-relaxed">{research.summary}</p>
-              <div className="flex space-x-2">
-                <button 
-                  className="px-4 py-2 bg-green-400/20 text-green-400 text-sm hover:bg-green-400/30 transition-colors"
-                  onMouseEnter={() => (window as any).playHoverSound?.()}
-                  onClick={() => (window as any).playClickSound?.()}
-                >
-                  READ PAPER
-                </button>
-                <button 
-                  className="px-4 py-2 border border-green-400/30 text-green-400 text-sm hover:bg-green-400/10 transition-colors"
-                  onMouseEnter={() => (window as any).playHoverSound?.()}
-                  onClick={() => (window as any).playClickSound?.()}
-                >
-                  VIEW SLIDES
-                </button>
-              </div>
-            </div>
-          ))}
+        <div className="absolute bottom-10 right-10 text-red-400/20 font-mono text-xs animate-pulse">
+          {Array(50).fill('ROOT ').join('')}
         </div>
       </div>
-    </main>
-  );
-
-  const renderContactPage = () => (
-    <main className="flex-1 px-6 lg:px-8 py-12">
+      
       <div className="max-w-4xl mx-auto">
+        {/* Enhanced header with terminal-style elements */}
         <div className="flex items-center space-x-4 mb-8">
           <button 
             onClick={() => {
@@ -585,67 +529,129 @@ function App() {
           >
             <ArrowLeft className="w-5 h-5 text-green-400" />
           </button>
-          <h1 className="text-4xl font-bold text-green-400" style={{ fontFamily: 'serif', textShadow: '0 0 20px #00ff41' }}>
-            SECURE CONTACT
-          </h1>
+          <div className="flex-1">
+            <h1 className="text-4xl font-bold text-green-400 mb-2" style={{ fontFamily: 'serif', textShadow: '0 0 20px #00ff41' }}>
+              SECURE_CONTACT.exe
+            </h1>
+            <div className="flex items-center space-x-4 text-sm font-mono text-green-400/70">
+              <span>[ESTABLISHING_ENCRYPTED_CHANNEL...]</span>
+              <div className="flex space-x-1">
+                <div className="w-2 h-2 bg-green-400 rounded-full animate-ping"></div>
+                <div className="w-2 h-2 bg-yellow-400 rounded-full animate-ping" style={{ animationDelay: '0.5s' }}></div>
+                <div className="w-2 h-2 bg-red-400 rounded-full animate-ping" style={{ animationDelay: '1s' }}></div>
+              </div>
+            </div>
+          </div>
         </div>
 
         <div className="grid lg:grid-cols-2 gap-12">
           {/* Contact Form */}
           <div className="space-y-6">
-            <div className="border border-green-400/30 bg-black/30 backdrop-blur-sm p-6">
-              <h2 className="text-2xl font-bold text-green-400 mb-6 font-mono">ENCRYPTED_MESSAGE</h2>
+            <div className="border border-green-400/30 bg-black/30 backdrop-blur-sm p-6 relative overflow-hidden">
+              {/* Terminal-style header */}
+              <div className="flex items-center justify-between mb-6 pb-3 border-b border-green-400/20">
+                <h2 className="text-2xl font-bold text-green-400 font-mono flex items-center">
+                  <Terminal className="w-5 h-5 mr-2 animate-pulse" />
+                  ENCRYPTED_MESSAGE.bat
+                </h2>
+                <div className="flex space-x-2">
+                  <div className="w-3 h-3 bg-red-400 rounded-full animate-pulse"></div>
+                  <div className="w-3 h-3 bg-yellow-400 rounded-full animate-pulse" style={{ animationDelay: '0.5s' }}></div>
+                  <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse" style={{ animationDelay: '1s' }}></div>
+                </div>
+              </div>
+              
+              {/* Animated scan line */}
+              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-green-400 to-transparent animate-pulse"></div>
+              
               <form className="space-y-4">
                 <div>
-                  <label className="block text-green-400 text-sm font-mono mb-2">IDENTITY:</label>
+                  <label className="block text-green-400 text-sm font-mono mb-2 flex items-center">
+                    <span className="mr-2">></span>
+                    IDENTITY_VERIFICATION:
+                    <span className="ml-2 text-red-400 animate-blink">_</span>
+                  </label>
                   <input 
                     type="text" 
-                    className="w-full bg-black/50 border border-green-400/30 text-green-400 px-4 py-2 focus:border-green-400 focus:outline-none transition-colors font-mono"
-                    placeholder="Enter your handle..."
+                    className="w-full bg-black/70 border border-green-400/30 text-green-400 px-4 py-3 focus:border-green-400 focus:outline-none transition-all duration-300 font-mono focus:bg-green-400/5 focus:shadow-lg focus:shadow-green-400/20"
+                    placeholder="[ENTER_YOUR_HANDLE]"
                     onFocus={() => (window as any).playHoverSound?.()}
                   />
                 </div>
                 <div>
-                  <label className="block text-green-400 text-sm font-mono mb-2">SECURE_CHANNEL:</label>
+                  <label className="block text-green-400 text-sm font-mono mb-2 flex items-center">
+                    <span className="mr-2">></span>
+                    SECURE_CHANNEL_ENDPOINT:
+                    <span className="ml-2 text-red-400 animate-blink">_</span>
+                  </label>
                   <input 
                     type="email" 
-                    className="w-full bg-black/50 border border-green-400/30 text-green-400 px-4 py-2 focus:border-green-400 focus:outline-none transition-colors font-mono"
-                    placeholder="your.email@domain.com"
+                    className="w-full bg-black/70 border border-green-400/30 text-green-400 px-4 py-3 focus:border-green-400 focus:outline-none transition-all duration-300 font-mono focus:bg-green-400/5 focus:shadow-lg focus:shadow-green-400/20"
+                    placeholder="[ENCRYPTED_EMAIL@DARKWEB.onion]"
                     onFocus={() => (window as any).playHoverSound?.()}
                   />
                 </div>
                 <div>
-                  <label className="block text-green-400 text-sm font-mono mb-2">SUBJECT:</label>
+                  <label className="block text-green-400 text-sm font-mono mb-2 flex items-center">
+                    <span className="mr-2">></span>
+                    MISSION_TYPE:
+                    <span className="ml-2 text-red-400 animate-blink">_</span>
+                  </label>
                   <select 
-                    className="w-full bg-black/50 border border-green-400/30 text-green-400 px-4 py-2 focus:border-green-400 focus:outline-none transition-colors font-mono"
+                    className="w-full bg-black/70 border border-green-400/30 text-green-400 px-4 py-3 focus:border-green-400 focus:outline-none transition-all duration-300 font-mono focus:bg-green-400/5 focus:shadow-lg focus:shadow-green-400/20"
                     onFocus={() => (window as any).playHoverSound?.()}
                   >
-                    <option>Red Team Engagement</option>
-                    <option>Penetration Testing</option>
-                    <option>Security Consultation</option>
-                    <option>Research Collaboration</option>
-                    <option>Other</option>
+                    <option>[SELECT_MISSION_TYPE]</option>
+                    <option>RED_TEAM_ENGAGEMENT</option>
+                    <option>PENETRATION_TESTING</option>
+                    <option>ZERO_DAY_CONSULTATION</option>
+                    <option>EXPLOIT_DEVELOPMENT</option>
+                    <option>CLASSIFIED_OPERATION</option>
                   </select>
                 </div>
                 <div>
-                  <label className="block text-green-400 text-sm font-mono mb-2">ENCRYPTED_PAYLOAD:</label>
+                  <label className="block text-green-400 text-sm font-mono mb-2 flex items-center">
+                    <span className="mr-2">></span>
+                    ENCRYPTED_PAYLOAD:
+                    <span className="ml-2 text-red-400 animate-blink">_</span>
+                  </label>
                   <textarea 
                     rows={6}
-                    className="w-full bg-black/50 border border-green-400/30 text-green-400 px-4 py-2 focus:border-green-400 focus:outline-none transition-colors font-mono resize-none"
-                    placeholder="Enter your message here..."
+                    className="w-full bg-black/70 border border-green-400/30 text-green-400 px-4 py-3 focus:border-green-400 focus:outline-none transition-all duration-300 font-mono resize-none focus:bg-green-400/5 focus:shadow-lg focus:shadow-green-400/20"
+                    placeholder="[ENTER_ENCRYPTED_MESSAGE_HERE]
+
+WARNING: ALL COMMUNICATIONS MONITORED
+USE PGP ENCRYPTION FOR SENSITIVE DATA
+NO ILLEGAL ACTIVITIES DISCUSSED"
                     onFocus={() => (window as any).playHoverSound?.()}
                   ></textarea>
                 </div>
+                
+                {/* Security verification */}
+                <div className="border border-red-400/30 bg-red-400/5 p-4 rounded">
+                  <div className="flex items-center space-x-2 mb-2">
+                    <Shield className="w-4 h-4 text-red-400" />
+                    <span className="text-red-400 font-mono text-sm">SECURITY_VERIFICATION</span>
+                  </div>
+                  <label className="flex items-center space-x-2 cursor-pointer">
+                    <input type="checkbox" className="form-checkbox bg-black border-red-400 text-red-400" />
+                    <span className="text-red-400/80 text-xs font-mono">
+                      I CONFIRM THIS IS NOT A HONEYPOT OPERATION
+                    </span>
+                  </label>
+                </div>
+                
                 <button 
                   type="submit"
-                  className="w-full px-6 py-3 bg-green-400 text-black font-bold hover:bg-yellow-400 transition-all duration-300 transform hover:scale-105"
+                  className="w-full px-6 py-4 bg-gradient-to-r from-green-400 to-green-500 text-black font-bold hover:from-red-400 hover:to-red-500 transition-all duration-300 transform hover:scale-105 font-mono text-lg relative overflow-hidden"
                   onMouseEnter={() => (window as any).playHoverSound?.()}
                   onClick={(e) => {
                     e.preventDefault();
                     (window as any).playClickSound?.();
                   }}
                 >
-                  TRANSMIT_MESSAGE
+                  <span className="relative z-10">TRANSMIT_MESSAGE.exe</span>
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
                 </button>
               </form>
             </div>
@@ -653,57 +659,93 @@ function App() {
 
           {/* Contact Info */}
           <div className="space-y-6">
-            <div className="border border-green-400/30 bg-black/30 backdrop-blur-sm p-6">
-              <h2 className="text-2xl font-bold text-green-400 mb-6 font-mono">CONTACT_PROTOCOLS</h2>
+            <div className="border border-green-400/30 bg-black/30 backdrop-blur-sm p-6 relative">
+              {/* Terminal header */}
+              <div className="flex items-center justify-between mb-6 pb-3 border-b border-green-400/20">
+                <h2 className="text-2xl font-bold text-green-400 font-mono flex items-center">
+                  <Code className="w-5 h-5 mr-2 animate-pulse" />
+                  CONTACT_PROTOCOLS.dll
+                </h2>
+                <div className="text-green-400/70 font-mono text-xs">
+                  [ONLINE]
+                </div>
+              </div>
+              
               <div className="space-y-4">
-                <div className="flex items-center space-x-3">
+                <div className="flex items-center space-x-3 p-3 border border-green-400/20 bg-black/20 hover:bg-green-400/5 transition-all duration-300">
                   <Mail className="w-5 h-5 text-green-400" />
                   <div>
-                    <div className="text-green-400 font-mono text-sm">SECURE_EMAIL:</div>
-                    <div className="text-green-300">contact@redteamdev.sec</div>
+                    <div className="text-green-400 font-mono text-sm">SECURE_EMAIL_GATEWAY:</div>
+                    <div className="text-green-300 font-mono">ghost@redteamdev.onion</div>
                   </div>
                 </div>
-                <div className="flex items-center space-x-3">
+                <div className="flex items-center space-x-3 p-3 border border-green-400/20 bg-black/20 hover:bg-green-400/5 transition-all duration-300">
                   <Phone className="w-5 h-5 text-green-400" />
                   <div>
-                    <div className="text-green-400 font-mono text-sm">ENCRYPTED_LINE:</div>
-                    <div className="text-green-300">+1 (555) HACK-SEC</div>
+                    <div className="text-green-400 font-mono text-sm">ENCRYPTED_VOICE_CHANNEL:</div>
+                    <div className="text-green-300 font-mono">+1 (555) GHOST-01</div>
                   </div>
                 </div>
-                <div className="flex items-center space-x-3">
+                <div className="flex items-center space-x-3 p-3 border border-green-400/20 bg-black/20 hover:bg-green-400/5 transition-all duration-300">
                   <MapPin className="w-5 h-5 text-green-400" />
                   <div>
-                    <div className="text-green-400 font-mono text-sm">LOCATION:</div>
-                    <div className="text-green-300">Cyberspace, Global Network</div>
+                    <div className="text-green-400 font-mono text-sm">PHYSICAL_COORDINATES:</div>
+                    <div className="text-green-300 font-mono">[CLASSIFIED] - Deep Web</div>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div className="border border-green-400/30 bg-black/30 backdrop-blur-sm p-6">
-              <h3 className="text-xl font-bold text-green-400 mb-4 font-mono">SECURITY_NOTICE</h3>
+            <div className="border border-red-400/30 bg-black/30 backdrop-blur-sm p-6 relative">
+              <div className="absolute top-2 right-2 text-red-400 font-mono text-xs animate-pulse">
+                [CLASSIFIED]
+              </div>
+              <h3 className="text-xl font-bold text-red-400 mb-4 font-mono flex items-center">
+                <Shield className="w-4 h-4 mr-2 animate-pulse" />
+                SECURITY_PROTOCOLS.sys
+              </h3>
               <div className="space-y-3 text-green-300/80 text-sm leading-relaxed">
-                <p>• All communications are monitored and encrypted</p>
-                <p>• Response time: 24-48 hours for legitimate inquiries</p>
-                <p>• PGP key available upon request</p>
-                <p>• No illegal activities or malicious requests</p>
+                <p className="flex items-center"><span className="text-red-400 mr-2">●</span>ALL COMMUNICATIONS ENCRYPTED WITH AES-256</p>
+                <p className="flex items-center"><span className="text-yellow-400 mr-2">●</span>RESPONSE TIME: 12-24 HOURS [LEGITIMATE ONLY]</p>
+                <p className="flex items-center"><span className="text-green-400 mr-2">●</span>PGP KEY: 0xDEADBEEF [REQUEST VIA SECURE CHANNEL]</p>
+                <p className="flex items-center"><span className="text-red-400 mr-2">●</span>NO ILLEGAL ACTIVITIES - MONITORED BY AI</p>
+                <p className="flex items-center"><span className="text-purple-400 mr-2">●</span>HONEYPOT DETECTION: ACTIVE</p>
               </div>
             </div>
 
-            <div className="border border-green-400/30 bg-black/30 backdrop-blur-sm p-6">
-              <h3 className="text-xl font-bold text-green-400 mb-4 font-mono">SERVICES_AVAILABLE</h3>
+            <div className="border border-green-400/30 bg-black/30 backdrop-blur-sm p-6 relative overflow-hidden">
+              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-green-400 via-yellow-400 to-red-400 animate-pulse"></div>
+              <h3 className="text-xl font-bold text-green-400 mb-4 font-mono flex items-center">
+                <Zap className="w-4 h-4 mr-2 animate-pulse" />
+                AVAILABLE_SERVICES.bat
+              </h3>
               <div className="space-y-2">
                 {[
-                  'Penetration Testing',
-                  'Red Team Operations',
-                  'Security Audits',
-                  'Exploit Development',
-                  'Security Training',
-                  'Incident Response'
-                ].map(service => (
-                  <div key={service} className="flex items-center space-x-2">
-                    <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-                    <span className="text-green-400 text-sm">{service}</span>
+                  { name: 'PENETRATION_TESTING.exe', status: 'ACTIVE' },
+                  { name: 'RED_TEAM_OPERATIONS.dll', status: 'ACTIVE' },
+                  { name: 'ZERO_DAY_RESEARCH.sys', status: 'CLASSIFIED' },
+                  { name: 'EXPLOIT_DEVELOPMENT.bat', status: 'ACTIVE' },
+                  { name: 'SOCIAL_ENGINEERING.py', status: 'BETA' },
+                  { name: 'INCIDENT_RESPONSE.sh', status: 'ON_DEMAND' }
+                ].map((service, index) => (
+                  <div key={service.name} className="flex items-center justify-between space-x-2 p-2 border border-green-400/20 bg-black/20 hover:bg-green-400/5 transition-all duration-300">
+                    <div className="flex items-center space-x-2">
+                      <div className={`w-2 h-2 rounded-full animate-pulse ${
+                        service.status === 'ACTIVE' ? 'bg-green-400' :
+                        service.status === 'CLASSIFIED' ? 'bg-red-400' :
+                        service.status === 'BETA' ? 'bg-yellow-400' :
+                        'bg-blue-400'
+                      }`}></div>
+                      <span className="text-green-400 text-sm font-mono">{service.name}</span>
+                    </div>
+                    <span className={`text-xs font-mono px-2 py-1 rounded ${
+                      service.status === 'ACTIVE' ? 'bg-green-400/20 text-green-400' :
+                      service.status === 'CLASSIFIED' ? 'bg-red-400/20 text-red-400' :
+                      service.status === 'BETA' ? 'bg-yellow-400/20 text-yellow-400' :
+                      'bg-blue-400/20 text-blue-400'
+                    }`}>
+                      {service.status}
+                    </span>
                   </div>
                 ))}
               </div>
@@ -720,8 +762,6 @@ function App() {
         return renderExploitsPage();
       case 'frameworks':
         return renderFrameworksPage();
-      case 'research':
-        return renderResearchPage();
       case 'contact':
         return renderContactPage();
       default:
@@ -803,7 +843,6 @@ function App() {
               {[
                 { key: 'exploits', label: 'EXPLOITS' },
                 { key: 'frameworks', label: 'FRAMEWORKS' },
-                { key: 'research', label: 'RESEARCH' },
                 { key: 'contact', label: 'CONTACT' }
               ].map((item) => (
                 <button
@@ -866,9 +905,23 @@ function App() {
         @keyframes fadeInUp {
           to { opacity: 1; transform: translateY(0); }
         }
+        
+        @keyframes scanLine {
+          0% { transform: translateX(-100%); }
+          100% { transform: translateX(100%); }
+        }
+        
+        @keyframes blink {
+          0%, 50% { opacity: 1; }
+          51%, 100% { opacity: 0; }
+        }
 
         .glow {
           text-shadow: 0 0 10px currentColor, 0 0 20px currentColor, 0 0 30px currentColor;
+        }
+        
+        .animate-blink {
+          animation: blink 1s infinite;
         }
       `}</style>
     </div>
