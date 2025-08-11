@@ -567,7 +567,7 @@ function App() {
               <form className="space-y-4">
                 <div>
                   <label className="block text-green-400 text-sm font-mono mb-2 flex items-center">
-                    <span className="mr-2">&gt;</span>
+                    <span className="mr-2">></span>
                     IDENTITY_VERIFICATION:
                     <span className="ml-2 text-red-400 animate-blink">_</span>
                   </label>
@@ -580,7 +580,7 @@ function App() {
                 </div>
                 <div>
                   <label className="block text-green-400 text-sm font-mono mb-2 flex items-center">
-                    <span className="mr-2">&gt;</span>
+                    <span className="mr-2">></span>
                     SECURE_CHANNEL_ENDPOINT:
                     <span className="ml-2 text-red-400 animate-blink">_</span>
                   </label>
@@ -593,7 +593,7 @@ function App() {
                 </div>
                 <div>
                   <label className="block text-green-400 text-sm font-mono mb-2 flex items-center">
-                    <span className="mr-2">&gt;</span>
+                    <span className="mr-2">></span>
                     MISSION_TYPE:
                     <span className="ml-2 text-red-400 animate-blink">_</span>
                   </label>
@@ -611,7 +611,7 @@ function App() {
                 </div>
                 <div>
                   <label className="block text-green-400 text-sm font-mono mb-2 flex items-center">
-                    <span className="mr-2">&gt;</span>
+                    <span className="mr-2">></span>
                     ENCRYPTED_PAYLOAD:
                     <span className="ml-2 text-red-400 animate-blink">_</span>
                   </label>
