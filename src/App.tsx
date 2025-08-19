@@ -515,16 +515,16 @@ function App() {
     <main className="flex-1 px-6 lg:px-8 py-12 relative overflow-hidden">
       {/* Animated background elements */}
       <div className="absolute inset-0 opacity-10">
-        <div className="absolute top-10 left-10 text-green-400/20 font-mono text-xs animate-pulse">
-          {Array(50).fill('HACK ').join('')}
+        <div className="absolute top-10 left-10 text-red-400/20 font-mono text-xs animate-pulse">
+          {Array(50).fill('NUCLEAR ').join('')}
         </div>
-        <div className="absolute bottom-10 right-10 text-red-400/20 font-mono text-xs animate-pulse">
-          {Array(50).fill('ROOT ').join('')}
+        <div className="absolute bottom-10 right-10 text-yellow-400/20 font-mono text-xs animate-pulse">
+          {Array(50).fill('LAUNCH ').join('')}
         </div>
       </div>
       
       <div className="max-w-4xl mx-auto">
-        {/* Enhanced header with terminal-style elements */}
+        {/* Nuclear Launch Control Header */}
         <div className="flex items-center space-x-4 mb-8">
           <button 
             onClick={() => {
@@ -532,229 +532,348 @@ function App() {
               navigateTo('home');
             }}
             onMouseEnter={() => (window as any).playHoverSound?.()}
-            className="p-2 border border-green-400 bg-black/50 backdrop-blur-sm hover:bg-green-400/20 transition-all duration-300"
+            className="p-2 border border-red-400 bg-black/50 backdrop-blur-sm hover:bg-red-400/20 transition-all duration-300"
           >
-            <ArrowLeft className="w-5 h-5 text-green-400" />
+            <ArrowLeft className="w-5 h-5 text-red-400" />
           </button>
           <div className="flex-1">
-            <h1 className="text-4xl font-bold text-green-400 mb-2" style={{ fontFamily: 'serif', textShadow: '0 0 20px #00ff41' }}>
-              SECURE_CONTACT.exe
+            <h1 className="text-4xl font-bold text-red-400 mb-2" style={{ fontFamily: 'serif', textShadow: '0 0 20px #ff0000' }}>
+              NUCLEAR_LAUNCH_CONTROL.exe
             </h1>
-            <div className="flex items-center space-x-4 text-sm font-mono text-green-400/70">
-              <span>[ESTABLISHING_ENCRYPTED_CHANNEL...]</span>
+            <div className="flex items-center space-x-4 text-sm font-mono text-red-400/70">
+              <span>[INITIALIZING_LAUNCH_SEQUENCE...]</span>
               <div className="flex space-x-1">
-                <div className="w-2 h-2 bg-green-400 rounded-full animate-ping"></div>
+                <div className="w-2 h-2 bg-red-400 rounded-full animate-ping"></div>
                 <div className="w-2 h-2 bg-yellow-400 rounded-full animate-ping" style={{ animationDelay: '0.5s' }}></div>
-                <div className="w-2 h-2 bg-red-400 rounded-full animate-ping" style={{ animationDelay: '1s' }}></div>
+                <div className="w-2 h-2 bg-green-400 rounded-full animate-ping" style={{ animationDelay: '1s' }}></div>
               </div>
             </div>
           </div>
         </div>
 
         <div className="grid lg:grid-cols-2 gap-12">
-          {/* Contact Form */}
+          {/* Nuclear Launch Control Panel */}
           <div className="space-y-6">
-            <div className="border border-green-400/30 bg-black/30 backdrop-blur-sm p-6 relative overflow-hidden">
-              {/* Terminal-style header */}
-              <div className="flex items-center justify-between mb-6 pb-3 border-b border-green-400/20">
-                <h2 className="text-2xl font-bold text-green-400 font-mono flex items-center">
-                  <Terminal className="w-5 h-5 mr-2 animate-pulse" />
-                  ENCRYPTED_MESSAGE.bat
+            <div className="border-2 border-red-400/50 bg-gradient-to-br from-red-900/20 via-black/80 to-yellow-900/20 backdrop-blur-sm p-6 relative overflow-hidden">
+              {/* Nuclear Control Header */}
+              <div className="flex items-center justify-between mb-6 pb-3 border-b border-red-400/30">
+                <h2 className="text-2xl font-bold text-red-400 font-mono flex items-center">
+                  <Zap className="w-5 h-5 mr-2 animate-pulse" />
+                  LAUNCH_AUTHORIZATION.sys
                 </h2>
                 <div className="flex space-x-2">
-                  <div className="w-3 h-3 bg-red-400 rounded-full animate-pulse"></div>
-                  <div className="w-3 h-3 bg-yellow-400 rounded-full animate-pulse" style={{ animationDelay: '0.5s' }}></div>
-                  <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse" style={{ animationDelay: '1s' }}></div>
+                  <div className="w-3 h-3 bg-red-400 rounded-full animate-pulse border border-red-400"></div>
+                  <div className="w-3 h-3 bg-yellow-400 rounded-full animate-pulse border border-yellow-400" style={{ animationDelay: '0.5s' }}></div>
+                  <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse border border-green-400" style={{ animationDelay: '1s' }}></div>
                 </div>
               </div>
               
-              {/* Animated scan line */}
-              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-green-400 to-transparent animate-pulse"></div>
+              {/* Nuclear Warning Scan Line */}
+              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-red-400 to-transparent animate-pulse"></div>
+              
+              {/* DEFCON Status */}
+              <div className="mb-6 p-4 border-2 border-red-400/50 bg-red-400/10 relative">
+                <div className="absolute -top-2 left-4 bg-black px-2 text-red-400 font-mono text-xs">
+                  DEFCON STATUS
+                </div>
+                <div className="flex items-center justify-between">
+                  <div className="text-red-400 font-mono text-2xl font-bold animate-pulse">
+                    DEFCON 1
+                  </div>
+                  <div className="text-red-400 font-mono text-sm">
+                    MAXIMUM READINESS
+                  </div>
+                </div>
+              </div>
               
               <form className="space-y-4">
                 <div>
-                  <label className="block text-green-400 text-sm font-mono mb-2 flex items-center">
+                  <label className="block text-red-400 text-sm font-mono mb-2 flex items-center">
                     <span className="mr-2">&gt;</span>
-                    IDENTITY_VERIFICATION:
+                    COMMANDER_AUTHORIZATION:
                     <span className="ml-2 text-red-400 animate-blink">_</span>
                   </label>
                   <input 
                     type="text" 
-                    className="w-full bg-black/70 border border-green-400/30 text-green-400 px-4 py-3 focus:border-green-400 focus:outline-none transition-all duration-300 font-mono focus:bg-green-400/5 focus:shadow-lg focus:shadow-green-400/20"
-                    placeholder="[ENTER_YOUR_HANDLE]"
+                    className="w-full bg-black/70 border-2 border-red-400/30 text-red-400 px-4 py-3 focus:border-red-400 focus:outline-none transition-all duration-300 font-mono focus:bg-red-400/5 focus:shadow-lg focus:shadow-red-400/20"
+                    placeholder="[ENTER_COMMANDER_CODE]"
                     onFocus={() => (window as any).playHoverSound?.()}
                   />
                 </div>
                 <div>
-                  <label className="block text-green-400 text-sm font-mono mb-2 flex items-center">
+                  <label className="block text-red-400 text-sm font-mono mb-2 flex items-center">
                     <span className="mr-2">&gt;</span>
-                    SECURE_CHANNEL_ENDPOINT:
+                    SECURE_COMMUNICATION_CHANNEL:
                     <span className="ml-2 text-red-400 animate-blink">_</span>
                   </label>
                   <input 
                     type="email" 
-                    className="w-full bg-black/70 border border-green-400/30 text-green-400 px-4 py-3 focus:border-green-400 focus:outline-none transition-all duration-300 font-mono focus:bg-green-400/5 focus:shadow-lg focus:shadow-green-400/20"
-                    placeholder="[ENCRYPTED_EMAIL@DARKWEB.onion]"
+                    className="w-full bg-black/70 border-2 border-red-400/30 text-red-400 px-4 py-3 focus:border-red-400 focus:outline-none transition-all duration-300 font-mono focus:bg-red-400/5 focus:shadow-lg focus:shadow-red-400/20"
+                    placeholder="[CLASSIFIED@PENTAGON.mil]"
                     onFocus={() => (window as any).playHoverSound?.()}
                   />
                 </div>
                 <div>
-                  <label className="block text-green-400 text-sm font-mono mb-2 flex items-center">
+                  <label className="block text-red-400 text-sm font-mono mb-2 flex items-center">
                     <span className="mr-2">&gt;</span>
-                    MISSION_TYPE:
+                    TARGET_SELECTION:
                     <span className="ml-2 text-red-400 animate-blink">_</span>
                   </label>
                   <select 
-                    className="w-full bg-black/70 border border-green-400/30 text-green-400 px-4 py-3 focus:border-green-400 focus:outline-none transition-all duration-300 font-mono focus:bg-green-400/5 focus:shadow-lg focus:shadow-green-400/20"
+                    className="w-full bg-black/70 border-2 border-red-400/30 text-red-400 px-4 py-3 focus:border-red-400 focus:outline-none transition-all duration-300 font-mono focus:bg-red-400/5 focus:shadow-lg focus:shadow-red-400/20"
                     onFocus={() => (window as any).playHoverSound?.()}
                   >
-                    <option>[SELECT_MISSION_TYPE]</option>
-                    <option>RED_TEAM_ENGAGEMENT</option>
-                    <option>PENETRATION_TESTING</option>
-                    <option>ZERO_DAY_CONSULTATION</option>
-                    <option>EXPLOIT_DEVELOPMENT</option>
-                    <option>CLASSIFIED_OPERATION</option>
+                    <option>[SELECT_TARGET_COORDINATES]</option>
+                    <option>MOSCOW_KREMLIN</option>
+                    <option>BEIJING_FORBIDDEN_CITY</option>
+                    <option>PYONGYANG_CENTRAL</option>
+                    <option>TEHRAN_GOVERNMENT_DISTRICT</option>
+                    <option>CLASSIFIED_BUNKER_ALPHA</option>
                   </select>
                 </div>
+                
+                {/* Launch Codes */}
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-yellow-400 text-sm font-mono mb-2 flex items-center">
+                      <span className="mr-2">&gt;</span>
+                      LAUNCH_CODE_ALPHA:
+                    </label>
+                    <input 
+                      type="password" 
+                      className="w-full bg-black/70 border-2 border-yellow-400/30 text-yellow-400 px-4 py-3 focus:border-yellow-400 focus:outline-none transition-all duration-300 font-mono focus:bg-yellow-400/5 focus:shadow-lg focus:shadow-yellow-400/20"
+                      placeholder="[ALPHA_CODE]"
+                      onFocus={() => (window as any).playHoverSound?.()}
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-yellow-400 text-sm font-mono mb-2 flex items-center">
+                      <span className="mr-2">&gt;</span>
+                      LAUNCH_CODE_BRAVO:
+                    </label>
+                    <input 
+                      type="password" 
+                      className="w-full bg-black/70 border-2 border-yellow-400/30 text-yellow-400 px-4 py-3 focus:border-yellow-400 focus:outline-none transition-all duration-300 font-mono focus:bg-yellow-400/5 focus:shadow-lg focus:shadow-yellow-400/20"
+                      placeholder="[BRAVO_CODE]"
+                      onFocus={() => (window as any).playHoverSound?.()}
+                    />
+                  </div>
+                </div>
+                
                 <div>
-                  <label className="block text-green-400 text-sm font-mono mb-2 flex items-center">
+                  <label className="block text-red-400 text-sm font-mono mb-2 flex items-center">
                     <span className="mr-2">&gt;</span>
-                    ENCRYPTED_PAYLOAD:
+                    MISSION_BRIEFING:
                     <span className="ml-2 text-red-400 animate-blink">_</span>
                   </label>
                   <textarea 
                     rows={6}
-                    className="w-full bg-black/70 border border-green-400/30 text-green-400 px-4 py-3 focus:border-green-400 focus:outline-none transition-all duration-300 font-mono resize-none focus:bg-green-400/5 focus:shadow-lg focus:shadow-green-400/20"
-                    placeholder="[ENTER_ENCRYPTED_MESSAGE_HERE]
+                    className="w-full bg-black/70 border-2 border-red-400/30 text-red-400 px-4 py-3 focus:border-red-400 focus:outline-none transition-all duration-300 font-mono resize-none focus:bg-red-400/5 focus:shadow-lg focus:shadow-red-400/20"
+                    placeholder="[ENTER_MISSION_PARAMETERS]
 
-WARNING: ALL COMMUNICATIONS MONITORED
-USE PGP ENCRYPTION FOR SENSITIVE DATA
-NO ILLEGAL ACTIVITIES DISCUSSED"
+⚠️  WARNING: NUCLEAR LAUNCH AUTHORIZED ONLY
+⚠️  MUTUALLY ASSURED DESTRUCTION PROTOCOL
+⚠️  THIS IS A SIMULATION - NO REAL WEAPONS"
                     onFocus={() => (window as any).playHoverSound?.()}
                   ></textarea>
                 </div>
                 
-                {/* Security verification */}
-                <div className="border border-red-400/30 bg-red-400/5 p-4 rounded">
+                {/* Nuclear Authorization */}
+                <div className="border-2 border-red-400/50 bg-red-400/10 p-4 relative">
                   <div className="flex items-center space-x-2 mb-2">
-                    <Shield className="w-4 h-4 text-red-400" />
-                    <span className="text-red-400 font-mono text-sm">SECURITY_VERIFICATION</span>
+                    <Zap className="w-4 h-4 text-red-400 animate-pulse" />
+                    <span className="text-red-400 font-mono text-sm">NUCLEAR_AUTHORIZATION</span>
                   </div>
-                  <label className="flex items-center space-x-2 cursor-pointer">
-                    <input type="checkbox" className="form-checkbox bg-black border-red-400 text-red-400" />
-                    <span className="text-red-400/80 text-xs font-mono">
-                      I CONFIRM THIS IS NOT A HONEYPOT OPERATION
-                    </span>
-                  </label>
+                  <div className="space-y-2">
+                    <label className="flex items-center space-x-2 cursor-pointer">
+                      <input type="checkbox" className="form-checkbox bg-black border-red-400 text-red-400" />
+                      <span className="text-red-400/80 text-xs font-mono">
+                        I UNDERSTAND THE CONSEQUENCES OF NUCLEAR WARFARE
+                      </span>
+                    </label>
+                    <label className="flex items-center space-x-2 cursor-pointer">
+                      <input type="checkbox" className="form-checkbox bg-black border-red-400 text-red-400" />
+                      <span className="text-red-400/80 text-xs font-mono">
+                        I CONFIRM PRESIDENTIAL AUTHORIZATION RECEIVED
+                      </span>
+                    </label>
+                    <label className="flex items-center space-x-2 cursor-pointer">
+                      <input type="checkbox" className="form-checkbox bg-black border-red-400 text-red-400" />
+                      <span className="text-red-400/80 text-xs font-mono">
+                        THIS IS A SIMULATION - NO ACTUAL LAUNCH
+                      </span>
+                    </label>
+                  </div>
                 </div>
                 
-                <button 
-                  type="submit"
-                  className="w-full px-6 py-4 bg-gradient-to-r from-green-400 to-green-500 text-black font-bold hover:from-red-400 hover:to-red-500 transition-all duration-300 transform hover:scale-105 font-mono text-lg relative overflow-hidden"
-                  onMouseEnter={() => (window as any).playHoverSound?.()}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    (window as any).playClickSound?.();
-                  }}
-                >
-                  <span className="relative z-10">TRANSMIT_MESSAGE.exe</span>
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
-                </button>
+                {/* Launch Button */}
+                <div className="relative">
+                  <button 
+                    type="submit"
+                    className="w-full px-6 py-6 bg-gradient-to-r from-red-600 to-red-700 text-white font-bold hover:from-red-500 hover:to-red-600 transition-all duration-300 transform hover:scale-105 font-mono text-xl relative overflow-hidden border-4 border-red-400/50 shadow-lg shadow-red-400/50"
+                    onMouseEnter={() => (window as any).playHoverSound?.()}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      (window as any).playClickSound?.();
+                    }}
+                  >
+                    <span className="relative z-10 flex items-center justify-center space-x-3">
+                      <Zap className="w-6 h-6 animate-pulse" />
+                      <span>INITIATE_NUCLEAR_LAUNCH</span>
+                      <Zap className="w-6 h-6 animate-pulse" />
+                    </span>
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+                  </button>
+                  
+                  {/* Warning Labels */}
+                  <div className="absolute -top-2 -left-2 bg-yellow-400 text-black px-2 py-1 text-xs font-bold transform -rotate-12">
+                    DANGER
+                  </div>
+                  <div className="absolute -top-2 -right-2 bg-red-400 text-white px-2 py-1 text-xs font-bold transform rotate-12">
+                    NUCLEAR
+                  </div>
+                </div>
+                
+                {/* Countdown Timer */}
+                <div className="border-2 border-yellow-400/50 bg-yellow-400/10 p-4 text-center">
+                  <div className="text-yellow-400 font-mono text-sm mb-2">LAUNCH_COUNTDOWN</div>
+                  <div className="text-yellow-400 font-mono text-3xl font-bold animate-pulse">
+                    00:00:00
+                  </div>
+                  <div className="text-yellow-400/70 font-mono text-xs mt-2">
+                    [AWAITING_AUTHORIZATION]
+                  </div>
+                </div>
               </form>
             </div>
           </div>
 
-          {/* Contact Info */}
+          {/* Nuclear Command Center Info */}
           <div className="space-y-6">
-            <div className="border border-green-400/30 bg-black/30 backdrop-blur-sm p-6 relative">
-              {/* Terminal header */}
-              <div className="flex items-center justify-between mb-6 pb-3 border-b border-green-400/20">
-                <h2 className="text-2xl font-bold text-green-400 font-mono flex items-center">
-                  <Code className="w-5 h-5 mr-2 animate-pulse" />
-                  CONTACT_PROTOCOLS.dll
+            {/* Command Center Status */}
+            <div className="border-2 border-red-400/50 bg-gradient-to-br from-red-900/20 via-black/80 to-black/90 backdrop-blur-sm p-6 relative">
+              {/* Nuclear header */}
+              <div className="flex items-center justify-between mb-6 pb-3 border-b border-red-400/30">
+                <h2 className="text-2xl font-bold text-red-400 font-mono flex items-center">
+                  <Shield className="w-5 h-5 mr-2 animate-pulse" />
+                  COMMAND_CENTER.sys
                 </h2>
-                <div className="text-green-400/70 font-mono text-xs">
-                  [ONLINE]
+                <div className="text-red-400/70 font-mono text-xs flex items-center space-x-2">
+                  <div className="w-2 h-2 bg-red-400 rounded-full animate-ping"></div>
+                  <span>[ARMED]</span>
                 </div>
               </div>
               
               <div className="space-y-4">
-                <div className="flex items-center space-x-3 p-3 border border-green-400/20 bg-black/20 hover:bg-green-400/5 transition-all duration-300">
-                  <Mail className="w-5 h-5 text-green-400" />
+                <div className="flex items-center space-x-3 p-3 border-2 border-red-400/30 bg-red-400/5 hover:bg-red-400/10 transition-all duration-300">
+                  <Mail className="w-5 h-5 text-red-400" />
                   <div>
-                    <div className="text-green-400 font-mono text-sm">SECURE_EMAIL_GATEWAY:</div>
-                    <div className="text-green-300 font-mono">ghost@redteamdev.onion</div>
+                    <div className="text-red-400 font-mono text-sm">SECURE_HOTLINE:</div>
+                    <div className="text-red-300 font-mono">nuclear.command@pentagon.mil</div>
                   </div>
                 </div>
-                <div className="flex items-center space-x-3 p-3 border border-green-400/20 bg-black/20 hover:bg-green-400/5 transition-all duration-300">
-                  <Phone className="w-5 h-5 text-green-400" />
+                <div className="flex items-center space-x-3 p-3 border-2 border-red-400/30 bg-red-400/5 hover:bg-red-400/10 transition-all duration-300">
+                  <Phone className="w-5 h-5 text-red-400" />
                   <div>
-                    <div className="text-green-400 font-mono text-sm">ENCRYPTED_VOICE_CHANNEL:</div>
-                    <div className="text-green-300 font-mono">+1 (555) GHOST-01</div>
+                    <div className="text-red-400 font-mono text-sm">RED_PHONE:</div>
+                    <div className="text-red-300 font-mono">+1 (800) NUCLEAR</div>
                   </div>
                 </div>
-                <div className="flex items-center space-x-3 p-3 border border-green-400/20 bg-black/20 hover:bg-green-400/5 transition-all duration-300">
-                  <MapPin className="w-5 h-5 text-green-400" />
+                <div className="flex items-center space-x-3 p-3 border-2 border-red-400/30 bg-red-400/5 hover:bg-red-400/10 transition-all duration-300">
+                  <MapPin className="w-5 h-5 text-red-400" />
                   <div>
-                    <div className="text-green-400 font-mono text-sm">PHYSICAL_COORDINATES:</div>
-                    <div className="text-green-300 font-mono">[CLASSIFIED] - Deep Web</div>
+                    <div className="text-red-400 font-mono text-sm">BUNKER_LOCATION:</div>
+                    <div className="text-red-300 font-mono">NORAD - Cheyenne Mountain</div>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div className="border border-red-400/30 bg-black/30 backdrop-blur-sm p-6 relative">
-              <div className="absolute top-2 right-2 text-red-400 font-mono text-xs animate-pulse">
-                [CLASSIFIED]
+            {/* Nuclear Arsenal Status */}
+            <div className="border-2 border-yellow-400/50 bg-gradient-to-br from-yellow-900/20 via-black/80 to-black/90 backdrop-blur-sm p-6 relative">
+              <div className="absolute top-2 right-2 text-yellow-400 font-mono text-xs animate-pulse">
+                [TOP_SECRET]
               </div>
-              <h3 className="text-xl font-bold text-red-400 mb-4 font-mono flex items-center">
-                <Shield className="w-4 h-4 mr-2 animate-pulse" />
-                SECURITY_PROTOCOLS.sys
+              <h3 className="text-xl font-bold text-yellow-400 mb-4 font-mono flex items-center">
+                <Zap className="w-4 h-4 mr-2 animate-pulse" />
+                NUCLEAR_ARSENAL.sys
               </h3>
-              <div className="space-y-3 text-green-300/80 text-sm leading-relaxed">
-                <p className="flex items-center"><span className="text-red-400 mr-2">●</span>ALL COMMUNICATIONS ENCRYPTED WITH AES-256</p>
-                <p className="flex items-center"><span className="text-yellow-400 mr-2">●</span>RESPONSE TIME: 12-24 HOURS [LEGITIMATE ONLY]</p>
-                <p className="flex items-center"><span className="text-green-400 mr-2">●</span>PGP KEY: 0xDEADBEEF [REQUEST VIA SECURE CHANNEL]</p>
-                <p className="flex items-center"><span className="text-red-400 mr-2">●</span>NO ILLEGAL ACTIVITIES - MONITORED BY AI</p>
-                <p className="flex items-center"><span className="text-purple-400 mr-2">●</span>HONEYPOT DETECTION: ACTIVE</p>
+              <div className="space-y-3 text-yellow-300/80 text-sm leading-relaxed">
+                <p className="flex items-center"><span className="text-red-400 mr-2">●</span>ICBM SILOS: 450 READY</p>
+                <p className="flex items-center"><span className="text-yellow-400 mr-2">●</span>SUBMARINE FLEET: 14 DEPLOYED</p>
+                <p className="flex items-center"><span className="text-green-400 mr-2">●</span>BOMBER AIRCRAFT: 66 AIRBORNE</p>
+                <p className="flex items-center"><span className="text-red-400 mr-2">●</span>TOTAL WARHEADS: 5,550 ACTIVE</p>
+                <p className="flex items-center"><span className="text-purple-400 mr-2">●</span>DEFCON STATUS: MAXIMUM ALERT</p>
               </div>
             </div>
 
-            <div className="border border-green-400/30 bg-black/30 backdrop-blur-sm p-6 relative overflow-hidden">
+            {/* Launch Protocols */}
+            <div className="border-2 border-green-400/50 bg-gradient-to-br from-green-900/20 via-black/80 to-black/90 backdrop-blur-sm p-6 relative overflow-hidden">
               <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-green-400 via-yellow-400 to-red-400 animate-pulse"></div>
               <h3 className="text-xl font-bold text-green-400 mb-4 font-mono flex items-center">
-                <Zap className="w-4 h-4 mr-2 animate-pulse" />
-                AVAILABLE_SERVICES.bat
+                <Terminal className="w-4 h-4 mr-2 animate-pulse" />
+                LAUNCH_PROTOCOLS.bat
               </h3>
               <div className="space-y-2">
                 {[
-                  { name: 'PENETRATION_TESTING.exe', status: 'ACTIVE' },
-                  { name: 'RED_TEAM_OPERATIONS.dll', status: 'ACTIVE' },
-                  { name: 'ZERO_DAY_RESEARCH.sys', status: 'CLASSIFIED' },
-                  { name: 'EXPLOIT_DEVELOPMENT.bat', status: 'ACTIVE' },
-                  { name: 'SOCIAL_ENGINEERING.py', status: 'BETA' },
-                  { name: 'INCIDENT_RESPONSE.sh', status: 'ON_DEMAND' }
-                ].map((service, index) => (
-                  <div key={service.name} className="flex items-center justify-between space-x-2 p-2 border border-green-400/20 bg-black/20 hover:bg-green-400/5 transition-all duration-300">
+                  { name: 'PRESIDENTIAL_AUTHORIZATION.exe', status: 'PENDING' },
+                  { name: 'DUAL_KEY_VERIFICATION.dll', status: 'REQUIRED' },
+                  { name: 'TARGET_ACQUISITION.sys', status: 'LOCKED' },
+                  { name: 'LAUNCH_SEQUENCE.bat', status: 'STANDBY' },
+                  { name: 'NUCLEAR_PAYLOAD.py', status: 'ARMED' },
+                  { name: 'IMPACT_ASSESSMENT.sh', status: 'CALCULATING' }
+                ].map((protocol, index) => (
+                  <div key={protocol.name} className="flex items-center justify-between space-x-2 p-2 border-2 border-green-400/30 bg-green-400/5 hover:bg-green-400/10 transition-all duration-300">
                     <div className="flex items-center space-x-2">
                       <div className={`w-2 h-2 rounded-full animate-pulse ${
-                        service.status === 'ACTIVE' ? 'bg-green-400' :
-                        service.status === 'CLASSIFIED' ? 'bg-red-400' :
-                        service.status === 'BETA' ? 'bg-yellow-400' :
+                        protocol.status === 'ARMED' ? 'bg-red-400' :
+                        protocol.status === 'LOCKED' ? 'bg-yellow-400' :
+                        protocol.status === 'STANDBY' ? 'bg-green-400' :
+                        protocol.status === 'CALCULATING' ? 'bg-purple-400' :
                         'bg-blue-400'
                       }`}></div>
-                      <span className="text-green-400 text-sm font-mono">{service.name}</span>
+                      <span className="text-green-400 text-sm font-mono">{protocol.name}</span>
                     </div>
-                    <span className={`text-xs font-mono px-2 py-1 rounded ${
-                      service.status === 'ACTIVE' ? 'bg-green-400/20 text-green-400' :
-                      service.status === 'CLASSIFIED' ? 'bg-red-400/20 text-red-400' :
-                      service.status === 'BETA' ? 'bg-yellow-400/20 text-yellow-400' :
-                      'bg-blue-400/20 text-blue-400'
+                    <span className={`text-xs font-mono px-2 py-1 rounded border ${
+                      protocol.status === 'ARMED' ? 'bg-red-400/20 text-red-400 border-red-400/30' :
+                      protocol.status === 'LOCKED' ? 'bg-yellow-400/20 text-yellow-400 border-yellow-400/30' :
+                      protocol.status === 'STANDBY' ? 'bg-green-400/20 text-green-400 border-green-400/30' :
+                      protocol.status === 'CALCULATING' ? 'bg-purple-400/20 text-purple-400 border-purple-400/30' :
+                      'bg-blue-400/20 text-blue-400 border-blue-400/30'
                     }`}>
-                      {service.status}
+                      {protocol.status}
                     </span>
                   </div>
                 ))}
+              </div>
+            </div>
+            
+            {/* Nuclear Warning */}
+            <div className="border-4 border-red-400/70 bg-gradient-to-br from-red-900/30 via-black/90 to-yellow-900/30 backdrop-blur-sm p-6 relative animate-pulse">
+              <div className="absolute inset-0 bg-gradient-to-r from-red-400/10 via-transparent to-yellow-400/10 animate-pulse"></div>
+              <div className="relative z-10">
+                <div className="flex items-center justify-center mb-4">
+                  <div className="text-6xl">☢️</div>
+                </div>
+                <h3 className="text-2xl font-bold text-red-400 mb-4 font-mono text-center animate-pulse">
+                  ⚠️ NUCLEAR WARNING ⚠️
+                </h3>
+                <div className="space-y-2 text-center">
+                  <p className="text-red-400 font-mono text-sm font-bold">
+                    THIS IS A SIMULATION ONLY
+                  </p>
+                  <p className="text-yellow-400 font-mono text-xs">
+                    NO ACTUAL NUCLEAR WEAPONS INVOLVED
+                  </p>
+                  <p className="text-green-400 font-mono text-xs">
+                    FOR PORTFOLIO DEMONSTRATION PURPOSES
+                  </p>
+                  <div className="mt-4 p-2 border border-red-400/50 bg-red-400/10">
+                    <p className="text-red-400/80 font-mono text-xs">
+                      "The nuclear option should remain just that - an option."
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
