@@ -28,7 +28,7 @@ function App() {
   const animationId = useRef<number>();
 
   // Matrix characters
-  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()_+-=[]{}|;:,.<>?/~`';
+  const chars = '0123456789';
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -43,29 +43,36 @@ function App() {
       
       // Initialize matrix characters
       matrixChars.current = [];
-      const numChars = Math.floor(canvas.width / 20) * 2;
+      const numChars = Math.floor(canvas.width / 15) * 3; // More dense numerical matrix
       
       for (let i = 0; i < numChars; i++) {
         matrixChars.current.push({
           char: chars[Math.floor(Math.random() * chars.length)],
           x: Math.random() * canvas.width,
           y: Math.random() * canvas.height,
-          speed: Math.random() * 3 + 1,
-          opacity: Math.random() * 0.5 + 0.1
+          speed: Math.random() * 2 + 0.5, // Slightly slower for readability
+          opacity: Math.random() * 0.7 + 0.2 // Brighter numbers
         });
       }
     };
 
     const animate = () => {
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.08)';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
       // Draw matrix rain
       ctx.fillStyle = '#00ff41';
-      ctx.font = '16px monospace';
+      ctx.font = '14px monospace';
 
       matrixChars.current.forEach((char, index) => {
-        ctx.globalAlpha = char.opacity;
+        // Create gradient effect for numbers
+        const gradient = ctx.createLinearGradient(0, char.y - 20, 0, char.y + 20);
+        gradient.addColorStop(0, `rgba(0, 255, 65, ${char.opacity * 0.3})`);
+        gradient.addColorStop(0.5, `rgba(0, 255, 65, ${char.opacity})`);
+        gradient.addColorStop(1, `rgba(0, 255, 65, ${char.opacity * 0.1})`);
+        
+        ctx.fillStyle = gradient;
+        ctx.globalAlpha = 1;
         ctx.fillText(char.char, char.x, char.y);
         
         char.y += char.speed;
@@ -76,8 +83,8 @@ function App() {
           char.char = chars[Math.floor(Math.random() * chars.length)];
         }
 
-        // Random character change
-        if (Math.random() < 0.02) {
+        // More frequent number changes for digital effect
+        if (Math.random() < 0.05) {
           char.char = chars[Math.floor(Math.random() * chars.length)];
         }
       });
