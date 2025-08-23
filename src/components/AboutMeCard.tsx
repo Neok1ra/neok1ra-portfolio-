@@ -132,7 +132,7 @@ Every tool I build leaves no trace — only questions.`;
           </div>
           
           <div className="relative z-10">
-            <pre className="text-green-300 leading-relaxed font-mono text-sm whitespace-pre-wrap">
+            <pre className="text-green-300 leading-relaxed font-mono text-sm whitespace-pre-wrap font-bold italic">
               {typedQuote}
               <span className="animate-pulse text-green-400">|</span>
             </pre>
