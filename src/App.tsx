@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Terminal, Code, Shield, Zap, ArrowLeft, Github, ExternalLink, Mail, Phone, MapPin } from 'lucide-react';
+import { Terminal, Code, Shield, Zap, ArrowLeft, Github, ExternalLink, Mail, Phone, MapPin, Menu, X } from 'lucide-react';
 import { SoundManager } from './components/SoundManager';
 import { AboutMeCard } from './components/AboutMeCard';
 
@@ -24,11 +24,26 @@ function App() {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [cursorTrail, setCursorTrail] = useState<CursorTrail[]>([]);
   const [currentPage, setCurrentPage] = useState<Page>('home');
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const [isTouch, setIsTouch] = useState(false);
   const matrixChars = useRef<MatrixChar[]>([]);
   const animationId = useRef<number>();
 
   // Matrix characters
   const chars = '0123456789';
+
+  // Detect mobile and touch devices
+  useEffect(() => {
+    const checkDevice = () => {
+      setIsMobile(window.innerWidth < 768);
+      setIsTouch('ontouchstart' in window || navigator.maxTouchPoints > 0);
+    };
+    
+    checkDevice();
+    window.addEventListener('resize', checkDevice);
+    return () => window.removeEventListener('resize', checkDevice);
+  }, []);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -50,7 +65,7 @@ function App() {
           char: chars[Math.floor(Math.random() * chars.length)],
           x: Math.random() * canvas.width,
           y: Math.random() * canvas.height,
-          speed: Math.random() * 2 + 0.5, // Slightly slower for readability
+          speed: Math.random() * (isMobile ? 1.5 : 2) + 0.5, // Slower on mobile for performance
           opacity: Math.random() * 0.7 + 0.2 // Brighter numbers
         });
       }
@@ -108,6 +123,8 @@ function App() {
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
+      if (isTouch) return; // Skip mouse effects on touch devices
+      
       const rect = document.documentElement.getBoundingClientRect();
       setMousePos({
         x: ((e.clientX - rect.left) / window.innerWidth - 0.5) * 2,
@@ -141,15 +158,22 @@ function App() {
     setCurrentPage(page);
   };
 
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+    if ((window as any).playClickSound) {
+      (window as any).playClickSound();
+    }
+  };
+
   const renderHomePage = () => (
-    <main className="flex-1 px-6 lg:px-8 py-12">
+    <main className="flex-1 px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
       <div className="max-w-7xl mx-auto space-y-12">
         {/* Hero Section */}
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           {/* Profile Image First */}
           <div className="relative order-2 lg:order-1">
             <div 
-              className="w-80 h-80 mx-auto rounded-lg border-2 border-green-400 bg-black/30 backdrop-blur-sm flex items-center justify-center relative overflow-hidden"
+              className="w-64 h-64 sm:w-80 sm:h-80 mx-auto rounded-lg border-2 border-green-400 bg-black/30 backdrop-blur-sm flex items-center justify-center relative overflow-hidden touch-manipulation"
               style={{
                 animation: 'float 6s ease-in-out infinite',
                 animationDelay: '2s',
@@ -200,7 +224,7 @@ function App() {
           {/* Text Content */}
           <div className="space-y-8 order-1 lg:order-2">
             <h1 
-              className="text-4xl lg:text-6xl font-bold leading-tight"
+              className="text-3xl sm:text-4xl lg:text-6xl font-bold leading-tight text-center lg:text-left"
               style={{ 
                 fontFamily: 'serif',
                 background: 'linear-gradient(45deg, #00ff41, #ffb000, #00ff41)',
@@ -220,7 +244,7 @@ function App() {
             </h1>
 
             <div 
-              className="text-lg lg:text-xl text-green-300 leading-relaxed font-mono"
+              className="text-base sm:text-lg lg:text-xl text-green-300 leading-relaxed font-mono text-center lg:text-left"
               style={{ 
                 animation: 'float 5s ease-in-out infinite',
                 animationDelay: '1s'
@@ -229,7 +253,7 @@ function App() {
               🚀 Started as a curious teen breaking my own home router; now I build pro red-team frameworks.
             </div>
 
-            <div className="flex flex-wrap gap-4">
+            <div className="flex flex-wrap gap-3 sm:gap-4 justify-center lg:justify-start">
               {[
                 { icon: Shield, text: 'PENETRATION TESTING' },
                 { icon: Terminal, text: 'EXPLOIT DEVELOPMENT' },
@@ -237,7 +261,7 @@ function App() {
               ].map((skill, index) => (
                 <div
                   key={skill.text}
-                  className="flex items-center space-x-2 px-4 py-2 border border-green-400/30 bg-black/30 backdrop-blur-sm hover:border-green-400 transition-all duration-300 hover:bg-green-400/10 cursor-pointer"
+                  className="flex items-center space-x-2 px-3 sm:px-4 py-2 border border-green-400/30 bg-black/30 backdrop-blur-sm hover:border-green-400 transition-all duration-300 hover:bg-green-400/10 cursor-pointer touch-manipulation active:scale-95"
                   style={{ 
                     animation: `fadeInUp 0.8s ease forwards`,
                     animationDelay: `${0.5 + index * 0.2}s`,
@@ -246,12 +270,12 @@ function App() {
                   onMouseEnter={() => (window as any).playHoverSound?.()}
                 >
                   <skill.icon className="w-4 h-4 text-green-400" />
-                  <span className="text-green-400 text-sm font-mono">{skill.text}</span>
+                  <span className="text-green-400 text-xs sm:text-sm font-mono">{skill.text}</span>
                 </div>
               ))}
             </div>
 
-            <div className="flex space-x-4">
+            <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4 items-center">
               <button 
                 onClick={() => navigateTo('exploits')}
                 onMouseEnter={() => (window as any).playHoverSound?.()}
@@ -259,7 +283,7 @@ function App() {
                   (window as any).playClickSound?.();
                   navigateTo('exploits');
                 }}
-                className="px-8 py-3 bg-green-400 text-black font-bold hover:bg-yellow-400 transition-all duration-300 transform hover:scale-105 hover:shadow-lg hover:shadow-green-400/50"
+                className="w-full sm:w-auto px-6 sm:px-8 py-3 bg-green-400 text-black font-bold hover:bg-yellow-400 transition-all duration-300 transform hover:scale-105 hover:shadow-lg hover:shadow-green-400/50 touch-manipulation active:scale-95"
               >
                 VIEW_EXPLOITS
               </button>
@@ -269,7 +293,7 @@ function App() {
                   (window as any).playClickSound?.();
                   navigateTo('contact');
                 }}
-                className="px-8 py-3 border border-green-400 text-green-400 hover:bg-green-400 hover:text-black transition-all duration-300 transform hover:scale-105"
+                className="w-full sm:w-auto px-6 sm:px-8 py-3 border border-green-400 text-green-400 hover:bg-green-400 hover:text-black transition-all duration-300 transform hover:scale-105 touch-manipulation active:scale-95"
               >
                 CONTACT_ME
               </button>
@@ -284,7 +308,7 @@ function App() {
   );
 
   const renderExploitsPage = () => (
-    <main className="flex-1 px-6 lg:px-8 py-12">
+    <main className="flex-1 px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
       <div className="max-w-6xl mx-auto">
         {/* Enhanced header with hacker elements */}
         <div className="flex items-center space-x-4 mb-8">
@@ -294,15 +318,15 @@ function App() {
               navigateTo('home');
             }}
             onMouseEnter={() => (window as any).playHoverSound?.()}
-            className="p-2 border border-green-400 bg-black/50 backdrop-blur-sm hover:bg-green-400/20 transition-all duration-300"
+            className="p-2 border border-green-400 bg-black/50 backdrop-blur-sm hover:bg-green-400/20 transition-all duration-300 touch-manipulation active:scale-95"
           >
             <ArrowLeft className="w-5 h-5 text-green-400" />
           </button>
           <div className="flex-1">
-            <h1 className="text-4xl font-bold text-green-400 mb-2" style={{ fontFamily: 'serif', textShadow: '0 0 20px #00ff41' }}>
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-green-400 mb-2" style={{ fontFamily: 'serif', textShadow: '0 0 20px #00ff41' }}>
               EXPLOITS_ARSENAL.exe
             </h1>
-            <div className="flex items-center space-x-4 text-sm font-mono text-green-400/70">
+            <div className="flex items-center space-x-2 sm:space-x-4 text-xs sm:text-sm font-mono text-green-400/70">
               <span>[LOADING_WEAPONS...]</span>
               <div className="flex space-x-1">
                 {[...Array(6)].map((_, i) => (
@@ -313,7 +337,7 @@ function App() {
           </div>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           {[
             {
               title: 'Buffer Overflow Toolkit',
@@ -354,7 +378,7 @@ function App() {
           ].map((exploit, index) => (
             <div
               key={exploit.title}
-              className="border border-green-400/30 bg-black/30 backdrop-blur-sm p-6 hover:border-green-400 hover:bg-green-400/10 transition-all duration-300 transform hover:scale-105 cursor-pointer"
+              className="border border-green-400/30 bg-black/30 backdrop-blur-sm p-4 sm:p-6 hover:border-green-400 hover:bg-green-400/10 transition-all duration-300 transform hover:scale-105 cursor-pointer touch-manipulation active:scale-95"
               style={{ 
                 animation: `fadeInUp 0.8s ease forwards`,
                 animationDelay: `${index * 0.1}s`,
@@ -363,7 +387,7 @@ function App() {
               onMouseEnter={() => (window as any).playHoverSound?.()}
             >
               <div className="flex justify-between items-start mb-4">
-                <h3 className="text-xl font-bold text-green-400 font-mono">{exploit.title}</h3>
+                <h3 className="text-lg sm:text-xl font-bold text-green-400 font-mono">{exploit.title}</h3>
                 <span className={`px-2 py-1 text-xs font-mono ${
                   exploit.status === 'Active' ? 'bg-green-400/20 text-green-400' :
                   exploit.status === 'Beta' ? 'bg-yellow-400/20 text-yellow-400' :
@@ -372,7 +396,7 @@ function App() {
                   {exploit.status}
                 </span>
               </div>
-              <p className="text-green-300/80 mb-4 text-sm leading-relaxed">{exploit.description}</p>
+              <p className="text-green-300/80 mb-4 text-xs sm:text-sm leading-relaxed">{exploit.description}</p>
               <div className="flex flex-wrap gap-2 mb-4">
                 {exploit.tech.map(tech => (
                   <span key={tech} className="px-2 py-1 bg-green-400/10 text-green-400 text-xs font-mono border border-green-400/30">
@@ -382,7 +406,7 @@ function App() {
               </div>
               <div className="flex space-x-2">
                 <button 
-                  className="flex items-center space-x-1 px-3 py-1 bg-green-400/20 text-green-400 text-xs hover:bg-green-400/30 transition-colors"
+                  className="flex items-center space-x-1 px-3 py-1 bg-green-400/20 text-green-400 text-xs hover:bg-green-400/30 transition-colors touch-manipulation active:scale-95"
                   onMouseEnter={() => (window as any).playHoverSound?.()}
                   onClick={() => (window as any).playClickSound?.()}
                 >
@@ -390,7 +414,7 @@ function App() {
                   <span>CODE</span>
                 </button>
                 <button 
-                  className="flex items-center space-x-1 px-3 py-1 border border-green-400/30 text-green-400 text-xs hover:bg-green-400/10 transition-colors"
+                  className="flex items-center space-x-1 px-3 py-1 border border-green-400/30 text-green-400 text-xs hover:bg-green-400/10 transition-colors touch-manipulation active:scale-95"
                   onMouseEnter={() => (window as any).playHoverSound?.()}
                   onClick={() => (window as any).playClickSound?.()}
                 >
@@ -406,7 +430,7 @@ function App() {
   );
 
   const renderFrameworksPage = () => (
-    <main className="flex-1 px-6 lg:px-8 py-12">
+    <main className="flex-1 px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
       <div className="max-w-6xl mx-auto">
         {/* Enhanced header */}
         <div className="flex items-center space-x-4 mb-8">
@@ -416,15 +440,15 @@ function App() {
               navigateTo('home');
             }}
             onMouseEnter={() => (window as any).playHoverSound?.()}
-            className="p-2 border border-green-400 bg-black/50 backdrop-blur-sm hover:bg-green-400/20 transition-all duration-300"
+            className="p-2 border border-green-400 bg-black/50 backdrop-blur-sm hover:bg-green-400/20 transition-all duration-300 touch-manipulation active:scale-95"
           >
             <ArrowLeft className="w-5 h-5 text-green-400" />
           </button>
           <div className="flex-1">
-            <h1 className="text-4xl font-bold text-green-400 mb-2" style={{ fontFamily: 'serif', textShadow: '0 0 20px #00ff41' }}>
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-green-400 mb-2" style={{ fontFamily: 'serif', textShadow: '0 0 20px #00ff41' }}>
               RED_TEAM_FRAMEWORKS.dll
             </h1>
-            <div className="flex items-center space-x-4 text-sm font-mono text-green-400/70">
+            <div className="flex items-center space-x-2 sm:space-x-4 text-xs sm:text-sm font-mono text-green-400/70">
               <span>[INITIALIZING_ATTACK_VECTORS...]</span>
               <div className="animate-pulse">●●●</div>
             </div>
@@ -457,7 +481,7 @@ function App() {
           ].map((framework, index) => (
             <div
               key={framework.name}
-              className="border border-green-400/30 bg-black/30 backdrop-blur-sm p-8 hover:border-green-400 hover:bg-green-400/10 transition-all duration-300 cursor-pointer"
+              className="border border-green-400/30 bg-black/30 backdrop-blur-sm p-4 sm:p-6 lg:p-8 hover:border-green-400 hover:bg-green-400/10 transition-all duration-300 cursor-pointer touch-manipulation active:scale-95"
               style={{ 
                 animation: `fadeInUp 0.8s ease forwards`,
                 animationDelay: `${index * 0.2}s`,
@@ -465,14 +489,14 @@ function App() {
               }}
               onMouseEnter={() => (window as any).playHoverSound?.()}
             >
-              <div className="grid lg:grid-cols-3 gap-8">
+              <div className="grid lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
                 <div className="lg:col-span-2">
                   <div className="flex items-center space-x-4 mb-4">
-                    <h2 className="text-2xl font-bold text-green-400 font-mono">{framework.name}</h2>
+                    <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-green-400 font-mono">{framework.name}</h2>
                     <span className="px-3 py-1 bg-green-400/20 text-green-400 text-sm font-mono">{framework.version}</span>
                   </div>
-                  <p className="text-green-300/80 mb-6 leading-relaxed">{framework.description}</p>
-                  <div className="grid grid-cols-2 gap-4 mb-6">
+                  <p className="text-green-300/80 mb-4 sm:mb-6 text-sm sm:text-base leading-relaxed">{framework.description}</p>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-4 mb-4 sm:mb-6">
                     {framework.features.map(feature => (
                       <div key={feature} className="flex items-center space-x-2">
                         <div className="w-2 h-2 bg-green-400 rounded-full"></div>
@@ -482,20 +506,20 @@ function App() {
                   </div>
                 </div>
                 <div className="space-y-4">
-                  <div className="text-center p-4 border border-green-400/30 bg-green-400/5">
-                    <div className="text-2xl font-bold text-green-400 font-mono">{framework.downloads}</div>
+                  <div className="text-center p-3 sm:p-4 border border-green-400/30 bg-green-400/5">
+                    <div className="text-xl sm:text-2xl font-bold text-green-400 font-mono">{framework.downloads}</div>
                     <div className="text-green-400/70 text-sm">Downloads</div>
                   </div>
                   <div className="space-y-2">
                     <button 
-                      className="w-full px-4 py-2 bg-green-400 text-black font-bold hover:bg-yellow-400 transition-colors"
+                      className="w-full px-4 py-2 bg-green-400 text-black font-bold hover:bg-yellow-400 transition-colors touch-manipulation active:scale-95"
                       onMouseEnter={() => (window as any).playHoverSound?.()}
                       onClick={() => (window as any).playClickSound?.()}
                     >
                       DOWNLOAD
                     </button>
                     <button 
-                      className="w-full px-4 py-2 border border-green-400 text-green-400 hover:bg-green-400/10 transition-colors"
+                      className="w-full px-4 py-2 border border-green-400 text-green-400 hover:bg-green-400/10 transition-colors touch-manipulation active:scale-95"
                       onMouseEnter={() => (window as any).playHoverSound?.()}
                       onClick={() => (window as any).playClickSound?.()}
                     >
@@ -512,7 +536,7 @@ function App() {
   );
 
   const renderContactPage = () => (
-    <main className="flex-1 px-6 lg:px-8 py-12 relative overflow-hidden">
+    <main className="flex-1 px-4 sm:px-6 lg:px-8 py-8 sm:py-12 relative overflow-hidden">
       {/* Animated background elements */}
       <div className="absolute inset-0 opacity-10">
         <div className="absolute top-10 left-10 text-red-400/20 font-mono text-xs animate-pulse">
@@ -532,15 +556,15 @@ function App() {
               navigateTo('home');
             }}
             onMouseEnter={() => (window as any).playHoverSound?.()}
-            className="p-2 border border-red-400 bg-black/50 backdrop-blur-sm hover:bg-red-400/20 transition-all duration-300"
+            className="p-2 border border-red-400 bg-black/50 backdrop-blur-sm hover:bg-red-400/20 transition-all duration-300 touch-manipulation active:scale-95"
           >
             <ArrowLeft className="w-5 h-5 text-red-400" />
           </button>
           <div className="flex-1">
-            <h1 className="text-4xl font-bold text-red-400 mb-2" style={{ fontFamily: 'serif', textShadow: '0 0 20px #ff0000' }}>
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-red-400 mb-2" style={{ fontFamily: 'serif', textShadow: '0 0 20px #ff0000' }}>
               NUCLEAR_LAUNCH_CONTROL.exe
             </h1>
-            <div className="flex items-center space-x-4 text-sm font-mono text-red-400/70">
+            <div className="flex items-center space-x-2 sm:space-x-4 text-xs sm:text-sm font-mono text-red-400/70">
               <span>[INITIALIZING_LAUNCH_SEQUENCE...]</span>
               <div className="flex space-x-1">
                 <div className="w-2 h-2 bg-red-400 rounded-full animate-ping"></div>
@@ -551,13 +575,13 @@ function App() {
           </div>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-12">
+        <div className="grid lg:grid-cols-2 gap-6 lg:gap-12">
           {/* Nuclear Launch Control Panel */}
           <div className="space-y-6">
-            <div className="border-2 border-red-400/50 bg-gradient-to-br from-red-900/20 via-black/80 to-yellow-900/20 backdrop-blur-sm p-6 relative overflow-hidden">
+            <div className="border-2 border-red-400/50 bg-gradient-to-br from-red-900/20 via-black/80 to-yellow-900/20 backdrop-blur-sm p-4 sm:p-6 relative overflow-hidden">
               {/* Nuclear Control Header */}
               <div className="flex items-center justify-between mb-6 pb-3 border-b border-red-400/30">
-                <h2 className="text-2xl font-bold text-red-400 font-mono flex items-center">
+                <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-red-400 font-mono flex items-center">
                   <Zap className="w-5 h-5 mr-2 animate-pulse" />
                   LAUNCH_AUTHORIZATION.sys
                 </h2>
@@ -595,7 +619,7 @@ function App() {
                   </label>
                   <input 
                     type="text" 
-                    className="w-full bg-black/70 border-2 border-red-400/30 text-red-400 px-4 py-3 focus:border-red-400 focus:outline-none transition-all duration-300 font-mono focus:bg-red-400/5 focus:shadow-lg focus:shadow-red-400/20"
+                    className="w-full bg-black/70 border-2 border-red-400/30 text-red-400 px-3 sm:px-4 py-2 sm:py-3 focus:border-red-400 focus:outline-none transition-all duration-300 font-mono focus:bg-red-400/5 focus:shadow-lg focus:shadow-red-400/20 text-sm sm:text-base"
                     placeholder="[ENTER_COMMANDER_CODE]"
                     onFocus={() => (window as any).playHoverSound?.()}
                   />
@@ -608,7 +632,7 @@ function App() {
                   </label>
                   <input 
                     type="email" 
-                    className="w-full bg-black/70 border-2 border-red-400/30 text-red-400 px-4 py-3 focus:border-red-400 focus:outline-none transition-all duration-300 font-mono focus:bg-red-400/5 focus:shadow-lg focus:shadow-red-400/20"
+                    className="w-full bg-black/70 border-2 border-red-400/30 text-red-400 px-3 sm:px-4 py-2 sm:py-3 focus:border-red-400 focus:outline-none transition-all duration-300 font-mono focus:bg-red-400/5 focus:shadow-lg focus:shadow-red-400/20 text-sm sm:text-base"
                     placeholder="[CLASSIFIED@PENTAGON.mil]"
                     onFocus={() => (window as any).playHoverSound?.()}
                   />
@@ -620,7 +644,7 @@ function App() {
                     <span className="ml-2 text-red-400 animate-blink">_</span>
                   </label>
                   <select 
-                    className="w-full bg-black/70 border-2 border-red-400/30 text-red-400 px-4 py-3 focus:border-red-400 focus:outline-none transition-all duration-300 font-mono focus:bg-red-400/5 focus:shadow-lg focus:shadow-red-400/20"
+                    className="w-full bg-black/70 border-2 border-red-400/30 text-red-400 px-3 sm:px-4 py-2 sm:py-3 focus:border-red-400 focus:outline-none transition-all duration-300 font-mono focus:bg-red-400/5 focus:shadow-lg focus:shadow-red-400/20 text-sm sm:text-base"
                     onFocus={() => (window as any).playHoverSound?.()}
                   >
                     <option>[SELECT_TARGET_COORDINATES]</option>
@@ -633,7 +657,7 @@ function App() {
                 </div>
                 
                 {/* Launch Codes */}
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-yellow-400 text-sm font-mono mb-2 flex items-center">
                       <span className="mr-2">&gt;</span>
@@ -641,7 +665,7 @@ function App() {
                     </label>
                     <input 
                       type="password" 
-                      className="w-full bg-black/70 border-2 border-yellow-400/30 text-yellow-400 px-4 py-3 focus:border-yellow-400 focus:outline-none transition-all duration-300 font-mono focus:bg-yellow-400/5 focus:shadow-lg focus:shadow-yellow-400/20"
+                      className="w-full bg-black/70 border-2 border-yellow-400/30 text-yellow-400 px-3 sm:px-4 py-2 sm:py-3 focus:border-yellow-400 focus:outline-none transition-all duration-300 font-mono focus:bg-yellow-400/5 focus:shadow-lg focus:shadow-yellow-400/20 text-sm sm:text-base"
                       placeholder="[ALPHA_CODE]"
                       onFocus={() => (window as any).playHoverSound?.()}
                     />
@@ -653,7 +677,7 @@ function App() {
                     </label>
                     <input 
                       type="password" 
-                      className="w-full bg-black/70 border-2 border-yellow-400/30 text-yellow-400 px-4 py-3 focus:border-yellow-400 focus:outline-none transition-all duration-300 font-mono focus:bg-yellow-400/5 focus:shadow-lg focus:shadow-yellow-400/20"
+                      className="w-full bg-black/70 border-2 border-yellow-400/30 text-yellow-400 px-3 sm:px-4 py-2 sm:py-3 focus:border-yellow-400 focus:outline-none transition-all duration-300 font-mono focus:bg-yellow-400/5 focus:shadow-lg focus:shadow-yellow-400/20 text-sm sm:text-base"
                       placeholder="[BRAVO_CODE]"
                       onFocus={() => (window as any).playHoverSound?.()}
                     />
@@ -667,8 +691,8 @@ function App() {
                     <span className="ml-2 text-red-400 animate-blink">_</span>
                   </label>
                   <textarea 
-                    rows={6}
-                    className="w-full bg-black/70 border-2 border-red-400/30 text-red-400 px-4 py-3 focus:border-red-400 focus:outline-none transition-all duration-300 font-mono resize-none focus:bg-red-400/5 focus:shadow-lg focus:shadow-red-400/20"
+                    rows={isMobile ? 4 : 6}
+                    className="w-full bg-black/70 border-2 border-red-400/30 text-red-400 px-3 sm:px-4 py-2 sm:py-3 focus:border-red-400 focus:outline-none transition-all duration-300 font-mono resize-none focus:bg-red-400/5 focus:shadow-lg focus:shadow-red-400/20 text-sm sm:text-base"
                     placeholder="[ENTER_MISSION_PARAMETERS]
 
 ⚠️  WARNING: NUCLEAR LAUNCH AUTHORIZED ONLY
@@ -710,7 +734,7 @@ function App() {
                 <div className="relative">
                   <button 
                     type="submit"
-                    className="w-full px-6 py-6 bg-gradient-to-r from-red-600 to-red-700 text-white font-bold hover:from-red-500 hover:to-red-600 transition-all duration-300 transform hover:scale-105 font-mono text-xl relative overflow-hidden border-4 border-red-400/50 shadow-lg shadow-red-400/50"
+                    className="w-full px-4 sm:px-6 py-4 sm:py-6 bg-gradient-to-r from-red-600 to-red-700 text-white font-bold hover:from-red-500 hover:to-red-600 transition-all duration-300 transform hover:scale-105 font-mono text-lg sm:text-xl relative overflow-hidden border-4 border-red-400/50 shadow-lg shadow-red-400/50 touch-manipulation active:scale-95"
                     onMouseEnter={() => (window as any).playHoverSound?.()}
                     onClick={(e) => {
                       e.preventDefault();
@@ -737,7 +761,7 @@ function App() {
                 {/* Countdown Timer */}
                 <div className="border-2 border-yellow-400/50 bg-yellow-400/10 p-4 text-center">
                   <div className="text-yellow-400 font-mono text-sm mb-2">LAUNCH_COUNTDOWN</div>
-                  <div className="text-yellow-400 font-mono text-3xl font-bold animate-pulse">
+                  <div className="text-yellow-400 font-mono text-2xl sm:text-3xl font-bold animate-pulse">
                     00:00:00
                   </div>
                   <div className="text-yellow-400/70 font-mono text-xs mt-2">
@@ -751,10 +775,10 @@ function App() {
           {/* Nuclear Command Center Info */}
           <div className="space-y-6">
             {/* Command Center Status */}
-            <div className="border-2 border-red-400/50 bg-gradient-to-br from-red-900/20 via-black/80 to-black/90 backdrop-blur-sm p-6 relative">
+            <div className="border-2 border-red-400/50 bg-gradient-to-br from-red-900/20 via-black/80 to-black/90 backdrop-blur-sm p-4 sm:p-6 relative">
               {/* Nuclear header */}
               <div className="flex items-center justify-between mb-6 pb-3 border-b border-red-400/30">
-                <h2 className="text-2xl font-bold text-red-400 font-mono flex items-center">
+                <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-red-400 font-mono flex items-center">
                   <Shield className="w-5 h-5 mr-2 animate-pulse" />
                   COMMAND_CENTER.sys
                 </h2>
@@ -765,36 +789,36 @@ function App() {
               </div>
               
               <div className="space-y-4">
-                <div className="flex items-center space-x-3 p-3 border-2 border-red-400/30 bg-red-400/5 hover:bg-red-400/10 transition-all duration-300">
+                <div className="flex items-center space-x-3 p-3 border-2 border-red-400/30 bg-red-400/5 hover:bg-red-400/10 transition-all duration-300 touch-manipulation active:scale-95">
                   <Mail className="w-5 h-5 text-red-400" />
                   <div>
                     <div className="text-red-400 font-mono text-sm">SECURE_HOTLINE:</div>
-                    <div className="text-red-300 font-mono">nuclear.command@pentagon.mil</div>
+                    <div className="text-red-300 font-mono text-xs sm:text-sm">nuclear.command@pentagon.mil</div>
                   </div>
                 </div>
-                <div className="flex items-center space-x-3 p-3 border-2 border-red-400/30 bg-red-400/5 hover:bg-red-400/10 transition-all duration-300">
+                <div className="flex items-center space-x-3 p-3 border-2 border-red-400/30 bg-red-400/5 hover:bg-red-400/10 transition-all duration-300 touch-manipulation active:scale-95">
                   <Phone className="w-5 h-5 text-red-400" />
                   <div>
                     <div className="text-red-400 font-mono text-sm">RED_PHONE:</div>
-                    <div className="text-red-300 font-mono">+1 (800) NUCLEAR</div>
+                    <div className="text-red-300 font-mono text-xs sm:text-sm">+1 (800) NUCLEAR</div>
                   </div>
                 </div>
-                <div className="flex items-center space-x-3 p-3 border-2 border-red-400/30 bg-red-400/5 hover:bg-red-400/10 transition-all duration-300">
+                <div className="flex items-center space-x-3 p-3 border-2 border-red-400/30 bg-red-400/5 hover:bg-red-400/10 transition-all duration-300 touch-manipulation active:scale-95">
                   <MapPin className="w-5 h-5 text-red-400" />
                   <div>
                     <div className="text-red-400 font-mono text-sm">BUNKER_LOCATION:</div>
-                    <div className="text-red-300 font-mono">NORAD - Cheyenne Mountain</div>
+                    <div className="text-red-300 font-mono text-xs sm:text-sm">NORAD - Cheyenne Mountain</div>
                   </div>
                 </div>
               </div>
             </div>
 
             {/* Nuclear Arsenal Status */}
-            <div className="border-2 border-yellow-400/50 bg-gradient-to-br from-yellow-900/20 via-black/80 to-black/90 backdrop-blur-sm p-6 relative">
+            <div className="border-2 border-yellow-400/50 bg-gradient-to-br from-yellow-900/20 via-black/80 to-black/90 backdrop-blur-sm p-4 sm:p-6 relative">
               <div className="absolute top-2 right-2 text-yellow-400 font-mono text-xs animate-pulse">
                 [TOP_SECRET]
               </div>
-              <h3 className="text-xl font-bold text-yellow-400 mb-4 font-mono flex items-center">
+              <h3 className="text-lg sm:text-xl font-bold text-yellow-400 mb-4 font-mono flex items-center">
                 <Zap className="w-4 h-4 mr-2 animate-pulse" />
                 NUCLEAR_ARSENAL.sys
               </h3>
@@ -808,9 +832,9 @@ function App() {
             </div>
 
             {/* Launch Protocols */}
-            <div className="border-2 border-green-400/50 bg-gradient-to-br from-green-900/20 via-black/80 to-black/90 backdrop-blur-sm p-6 relative overflow-hidden">
+            <div className="border-2 border-green-400/50 bg-gradient-to-br from-green-900/20 via-black/80 to-black/90 backdrop-blur-sm p-4 sm:p-6 relative overflow-hidden">
               <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-green-400 via-yellow-400 to-red-400 animate-pulse"></div>
-              <h3 className="text-xl font-bold text-green-400 mb-4 font-mono flex items-center">
+              <h3 className="text-lg sm:text-xl font-bold text-green-400 mb-4 font-mono flex items-center">
                 <Terminal className="w-4 h-4 mr-2 animate-pulse" />
                 LAUNCH_PROTOCOLS.bat
               </h3>
@@ -823,7 +847,7 @@ function App() {
                   { name: 'NUCLEAR_PAYLOAD.py', status: 'ARMED' },
                   { name: 'IMPACT_ASSESSMENT.sh', status: 'CALCULATING' }
                 ].map((protocol, index) => (
-                  <div key={protocol.name} className="flex items-center justify-between space-x-2 p-2 border-2 border-green-400/30 bg-green-400/5 hover:bg-green-400/10 transition-all duration-300">
+                  <div key={protocol.name} className="flex items-center justify-between space-x-2 p-2 border-2 border-green-400/30 bg-green-400/5 hover:bg-green-400/10 transition-all duration-300 touch-manipulation active:scale-95">
                     <div className="flex items-center space-x-2">
                       <div className={`w-2 h-2 rounded-full animate-pulse ${
                         protocol.status === 'ARMED' ? 'bg-red-400' :
@@ -832,7 +856,7 @@ function App() {
                         protocol.status === 'CALCULATING' ? 'bg-purple-400' :
                         'bg-blue-400'
                       }`}></div>
-                      <span className="text-green-400 text-sm font-mono">{protocol.name}</span>
+                      <span className="text-green-400 text-xs sm:text-sm font-mono">{protocol.name}</span>
                     </div>
                     <span className={`text-xs font-mono px-2 py-1 rounded border ${
                       protocol.status === 'ARMED' ? 'bg-red-400/20 text-red-400 border-red-400/30' :
@@ -849,13 +873,13 @@ function App() {
             </div>
             
             {/* Nuclear Warning */}
-            <div className="border-4 border-red-400/70 bg-gradient-to-br from-red-900/30 via-black/90 to-yellow-900/30 backdrop-blur-sm p-6 relative animate-pulse">
+            <div className="border-4 border-red-400/70 bg-gradient-to-br from-red-900/30 via-black/90 to-yellow-900/30 backdrop-blur-sm p-4 sm:p-6 relative animate-pulse">
               <div className="absolute inset-0 bg-gradient-to-r from-red-400/10 via-transparent to-yellow-400/10 animate-pulse"></div>
               <div className="relative z-10">
                 <div className="flex items-center justify-center mb-4">
-                  <div className="text-6xl">☢️</div>
+                  <div className="text-4xl sm:text-6xl">☢️</div>
                 </div>
-                <h3 className="text-2xl font-bold text-red-400 mb-4 font-mono text-center animate-pulse">
+                <h3 className="text-lg sm:text-xl lg:text-2xl font-bold text-red-400 mb-4 font-mono text-center animate-pulse">
                   ⚠️ NUCLEAR WARNING ⚠️
                 </h3>
                 <div className="space-y-2 text-center">
@@ -908,18 +932,20 @@ function App() {
       />
 
       {/* Custom Cursor */}
-      <div 
-        className="fixed w-4 h-4 bg-green-400 rounded-full pointer-events-none z-50 mix-blend-difference"
-        style={{
-          left: `${mousePos.x * 10 + 50}%`,
-          top: `${mousePos.y * 10 + 50}%`,
-          transform: 'translate(-50%, -50%)',
-          boxShadow: '0 0 20px #00ff41, 0 0 40px #00ff41'
-        }}
-      />
+      {!isTouch && (
+        <div 
+          className="fixed w-4 h-4 bg-green-400 rounded-full pointer-events-none z-50 mix-blend-difference"
+          style={{
+            left: `${mousePos.x * 10 + 50}%`,
+            top: `${mousePos.y * 10 + 50}%`,
+            transform: 'translate(-50%, -50%)',
+            boxShadow: '0 0 20px #00ff41, 0 0 40px #00ff41'
+          }}
+        />
+      )}
 
       {/* Cursor Trail */}
-      {cursorTrail.map((trail, index) => (
+      {!isTouch && cursorTrail.map((trail, index) => (
         <div
           key={trail.id}
           className="fixed w-2 h-2 bg-green-400 rounded-full pointer-events-none z-40"
@@ -936,7 +962,7 @@ function App() {
       {/* Main Content */}
       <div className="relative z-20 min-h-screen flex flex-col">
         {/* Header */}
-        <header className="p-6 lg:p-8">
+        <header className="p-4 sm:p-6 lg:p-8">
           <nav className="flex justify-between items-center">
             <div className="flex items-center space-x-3">
               <button 
@@ -945,7 +971,7 @@ function App() {
                   navigateTo('home');
                 }}
                 onMouseEnter={() => (window as any).playHoverSound?.()}
-                className="p-2 border border-green-400 bg-black/50 backdrop-blur-sm hover:bg-green-400/20 transition-all duration-300"
+                className="p-2 border border-green-400 bg-black/50 backdrop-blur-sm hover:bg-green-400/20 transition-all duration-300 touch-manipulation active:scale-95"
               >
                 <Code className="w-6 h-6 text-green-400" />
               </button>
@@ -965,7 +991,7 @@ function App() {
                 RED_TEAM_DEV
               </span>
             </div>
-            <div className="hidden md:flex space-x-8">
+            <div className="hidden md:flex space-x-4 lg:space-x-8">
               {[
                 { key: 'exploits', label: 'EXPLOITS' },
                 { key: 'frameworks', label: 'FRAMEWORKS' },
@@ -989,15 +1015,59 @@ function App() {
                 </button>
               ))}
             </div>
+            
+            {/* Mobile Menu Button */}
+            <button
+              onClick={toggleMobileMenu}
+              onMouseEnter={() => (window as any).playHoverSound?.()}
+              className="md:hidden p-2 border border-green-400 bg-black/50 backdrop-blur-sm hover:bg-green-400/20 transition-all duration-300 touch-manipulation active:scale-95"
+            >
+              {isMobileMenuOpen ? (
+                <X className="w-6 h-6 text-green-400" />
+              ) : (
+                <Menu className="w-6 h-6 text-green-400" />
+              )}
+            </button>
           </nav>
+          
+          {/* Mobile Menu */}
+          {isMobileMenuOpen && (
+            <div className="md:hidden mt-4 p-4 border border-green-400/30 bg-black/80 backdrop-blur-sm">
+              <div className="space-y-3">
+                {[
+                  { key: 'exploits', label: 'EXPLOITS' },
+                  { key: 'frameworks', label: 'FRAMEWORKS' },
+                  { key: 'contact', label: 'CONTACT' }
+                ].map((item) => (
+                  <button
+                    key={item.key}
+                    onClick={() => {
+                      (window as any).playClickSound?.();
+                      navigateTo(item.key as Page);
+                      setIsMobileMenuOpen(false);
+                    }}
+                    onMouseEnter={() => (window as any).playHoverSound?.()}
+                    className={`block w-full text-left font-mono text-sm tracking-wider transition-all duration-300 p-3 border border-green-400/30 hover:border-green-400 hover:bg-green-400/10 touch-manipulation active:scale-95 ${
+                      currentPage === item.key 
+                        ? 'text-yellow-400 bg-yellow-400/10 border-yellow-400/50' 
+                        : 'text-green-400'
+                    }`}
+                    style={{ textShadow: '0 0 5px currentColor' }}
+                  >
+                    {item.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
         </header>
 
         {/* Page Content */}
         {renderCurrentPage()}
 
         {/* Footer */}
-        <footer className="p-6 text-center">
-          <div className="flex justify-center space-x-8 text-green-400/70 font-mono text-sm">
+        <footer className="p-4 sm:p-6 text-center">
+          <div className="flex flex-col sm:flex-row justify-center space-y-2 sm:space-y-0 sm:space-x-4 lg:space-x-8 text-green-400/70 font-mono text-xs sm:text-sm">
             <span>SYSTEM_STATUS: ONLINE</span>
             <span>THREAT_LEVEL: ELEVATED</span>
             <span>LAST_HACK: {new Date().toLocaleTimeString()}</span>
@@ -1048,6 +1118,10 @@ function App() {
         
         .animate-blink {
           animation: blink 1s infinite;
+        }
+        
+        .touch-manipulation {
+          touch-action: manipulation;
         }
       `}</style>
     </div>
