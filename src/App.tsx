@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Terminal, User, Briefcase, Mail, Phone, MapPin, Github, Linkedin, Twitter, Menu, X, Shield, Skull, AlertTriangle, Zap, Target, Clock, Radio, Wifi, Eye, Lock, Cpu, HardDrive, Network, Bug, Code, Database, Server, Activity } from 'lucide-react';
+import { Terminal, User, Briefcase, Mail, Phone, MapPin, Github, Linkedin, Twitter, Menu, X, Shield, Skull, AlertTriangle, Zap, Target, Clock, Radio, Wifi, Eye, Lock, Cpu, HardDrive, Network, Bug, Code, Database, Server, Activity, ArrowLeft, ExternalLink } from 'lucide-react';
 import { SoundManager } from './components/SoundManager';
 import { AboutMeCard } from './components/AboutMeCard';
 
@@ -31,6 +31,7 @@ function App() {
   const [hackingProgress, setHackingProgress] = useState(0);
   const [systemStatus, setSystemStatus] = useState('INFILTRATING');
   const [isTouch, setIsTouch] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const matrixChars = useRef<MatrixChar[]>([]);
   const animationId = useRef<number>();
 
@@ -959,9 +960,61 @@ function App() {
   };
 
   return (
-    <div className="relative min-h-screen bg-black overflow-hidden cursor-none">
+    <div className={`relative min-h-screen bg-black overflow-hidden cursor-none ${glitchActive ? 'animate-pulse' : ''}`}>
       {/* Sound Manager */}
       <SoundManager currentPage={currentPage} />
+
+      {/* Cyber Overlay Effects */}
+      <div className="fixed inset-0 pointer-events-none z-50">
+        {/* Scanlines */}
+        <div 
+          className="absolute w-full h-1 bg-gradient-to-r from-transparent via-green-400/30 to-transparent"
+          style={{ top: `${scanlinePosition}%`, transition: 'none' }}
+        />
+        
+        {/* Glitch overlay */}
+        {glitchActive && (
+          <div className="absolute inset-0 bg-gradient-to-r from-red-500/10 via-transparent to-blue-500/10 animate-pulse" />
+        )}
+        
+        {/* Corner HUD elements */}
+        <div className="absolute top-4 left-4 text-xs font-mono text-green-400/70">
+          <div className="flex items-center space-x-2 mb-1">
+            <div className="w-2 h-2 bg-red-400 rounded-full animate-pulse" />
+            <span>REC</span>
+          </div>
+          <div>SYS: {systemStatus}</div>
+          <div>PROG: {hackingProgress.toFixed(1)}%</div>
+        </div>
+        
+        <div className="absolute top-4 right-4 text-xs font-mono text-green-400/70 text-right">
+          <div className="flex items-center justify-end space-x-2 mb-1">
+            <span>SECURE</span>
+            <Lock className="w-3 h-3" />
+          </div>
+          <div>NET: DARK_WEB</div>
+          <div>LOC: UNKNOWN</div>
+        </div>
+        
+        <div className="absolute bottom-4 left-4 text-xs font-mono text-green-400/70">
+          <div className="flex items-center space-x-2">
+            <Activity className="w-3 h-3 animate-pulse" />
+            <span>CPU: 99.7%</span>
+          </div>
+          <div className="flex items-center space-x-2">
+            <HardDrive className="w-3 h-3" />
+            <span>MEM: 15.2TB</span>
+          </div>
+        </div>
+        
+        <div className="absolute bottom-4 right-4 text-xs font-mono text-green-400/70 text-right">
+          <div className="flex items-center justify-end space-x-2">
+            <span>THREAT: MAX</span>
+            <Skull className="w-3 h-3 text-red-400 animate-pulse" />
+          </div>
+          <div>STEALTH: ACTIVE</div>
+        </div>
+      </div>
 
       {/* Matrix Background Canvas */}
       <canvas
