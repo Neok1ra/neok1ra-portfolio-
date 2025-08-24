@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Terminal, Code, Shield, Zap, ArrowLeft, Github, ExternalLink, Mail, Phone, MapPin, Menu, X } from 'lucide-react';
+import { Terminal, User, Briefcase, Mail, Phone, MapPin, Github, Linkedin, Twitter, Menu, X, Shield, Skull, AlertTriangle, Zap, Target, Clock, Radio, Wifi, Eye, Lock, Cpu, HardDrive, Network, Bug, Code, Database, Server, Activity } from 'lucide-react';
 import { SoundManager } from './components/SoundManager';
 import { AboutMeCard } from './components/AboutMeCard';
 
@@ -26,6 +26,10 @@ function App() {
   const [currentPage, setCurrentPage] = useState<Page>('home');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [glitchActive, setGlitchActive] = useState(false);
+  const [scanlinePosition, setScanlinePosition] = useState(0);
+  const [hackingProgress, setHackingProgress] = useState(0);
+  const [systemStatus, setSystemStatus] = useState('INFILTRATING');
   const [isTouch, setIsTouch] = useState(false);
   const matrixChars = useRef<MatrixChar[]>([]);
   const animationId = useRef<number>();
@@ -119,6 +123,41 @@ function App() {
         cancelAnimationFrame(animationId.current);
       }
     };
+  }, []);
+
+  // Glitch effect
+  useEffect(() => {
+    const glitchInterval = setInterval(() => {
+      setGlitchActive(true);
+      setTimeout(() => setGlitchActive(false), 150);
+    }, Math.random() * 8000 + 2000);
+
+    return () => clearInterval(glitchInterval);
+  }, []);
+
+  // Scanline animation
+  useEffect(() => {
+    const scanlineInterval = setInterval(() => {
+      setScanlinePosition(prev => (prev + 1) % 100);
+    }, 50);
+
+    return () => clearInterval(scanlineInterval);
+  }, []);
+
+  // Hacking progress simulation
+  useEffect(() => {
+    const progressInterval = setInterval(() => {
+      setHackingProgress(prev => {
+        const newProgress = (prev + Math.random() * 3) % 100;
+        if (newProgress < 25) setSystemStatus('SCANNING');
+        else if (newProgress < 50) setSystemStatus('INFILTRATING');
+        else if (newProgress < 75) setSystemStatus('EXPLOITING');
+        else setSystemStatus('COMPROMISED');
+        return newProgress;
+      });
+    }, 200);
+
+    return () => clearInterval(progressInterval);
   }, []);
 
   useEffect(() => {
